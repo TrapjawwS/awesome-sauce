@@ -1,0 +1,151 @@
+b5.LoadScene = function(world, scene, data, game) {
+	//scene is the main scene where resources and actors will be added
+	//game is equivalent to b5.Game where there's things like the loading screen, scene loader, player, configs and	more.
+	//you should add local variables on data object, for them to be removed when another scene is being loaded, for global variables add them to game or write it to a file.
+  
+  //New Session
+  !game.SlotUtils.getSessionInMap(3) && game.SlotUtils.createSessionInMap(3,-13.3999996, 1.92); //EK's House
+  game.save();
+  /***/
+  
+  game.importObject('CreateMap').init();
+  game.importObject('CreatePlayerMap');
+  
+  //Update presence in discord
+ 	game.DiscordSession.updateActivity({
+		details: 'Inkwell Isle I',
+		state: game.d_printPlayersMap()
+ 	});
+    
+  var house = world.findActor('EKHouse',true);
+  house.center_atlas = true;
+  house.use_parent_opacity = false;
+  house.playAnim('ek_house',true);
+  
+  //Background dim
+	var bg = new b5.RectActor();
+	bg.w = 1280;
+	bg.h = 720;
+	bg.x = bg.y = 0;
+	bg.opacity = 0;
+	bg.fill_style = b5.Game.Styles.black_bg;
+	bg.name = "BGDim";
+	bg.fit = b5.Actor.FitSize;
+	bg._layer = 3;
+	scene.addActor(bg);
+
+  world.order_changed = true;
+  
+  scene.events.on('showequipcard', function() {
+  	bg.opacity = 0;
+  	bg.TweenTo('opacity',0.55, 0.35, b5.Ease.linear, true);
+  	b5.Tweener(scene, 'BLUR_MULTIPLIER', null, 0, 1.4, 0.35, b5.Ease.linear, 0, world).start();
+  	
+  	for(var i = 0, p = world.findActorsByTagName('player',true); i < p.length; i++)
+  		p[i].flags.controllable = false;
+  });
+  scene.events.on('hideequipcard', function() {
+  	data.upd_ui();
+  	bg.opacity = 0.55;
+  	bg.TweenTo('opacity',0, 0.35, b5.Ease.linear, true);
+  	b5.Tweener(scene, 'BLUR_MULTIPLIER', null, 1.4, 0, 0.35, b5.Ease.linear, 0, world).start();
+  	
+  	for(var i = 0, p = world.findActorsByTagName('player',true); i < p.length; i++)
+  		p[i].flags.controllable = true;
+  });
+  
+  scene.events.on('resume', function() {
+  	data.upd_ui();
+  });
+  scene.events.on('closetitlecard', function() {
+  	data.upd_ui();
+  });
+ 
+  //Update UI
+  data.upd_ui = function() {
+		b5.Game.UiButtons.setButtons([{
+			text: "texts.ui_equip",
+			actionButton: "dash"
+		}]);
+  	b5.Game.UiButtons.show();
+  }
+  
+	data.upd_ui();
+};
+b5.onLoadingScreenOut = function(world, scene, data, game) {
+	//Called when the loading screen is fading out, here you can start animating your actors and do whatever you want!
+  
+  data.initializePlayers();
+  
+  b5.Game.Multiplayer.Initialize(world,data);
+  
+  var birds = scene.findResource('SfxAmbientDayBirds','sound'),
+  mus = scene.findResource('MUS_InkwellIsleOne','sound');
+  
+  birds.play();
+  mus.play();
+  
+  //Veggies hint audio update
+  
+  
+  //October 2022...
+  if(game.Flags.spookyMode) world.setInterval(f => {
+  	var x = 1740, y = 1150, c = world.findActorsByTagName('player',true)[0],
+  	d = b5.Maths.distance(c.x,c.y,x,y), g;
+  	
+  	if(d < 300) {
+  		g = d/300;
+  		mus.setGain(g*g);
+  		mus.Tween('playbackRate',Math.max(g,0.3),app.dt);
+  		birds.Tween('playbackRate',(1-g)*1000,app.dt);
+  		world._x = Math.random()*(1-g*g)*5;
+  		world._y = Math.random()*(1-g*g)*5;
+  		app.min_speed = Math.max(0.001, (1/24)*g*g);
+  		scene.BLUR_MULTIPLIER = 2*(1-g);
+  		app.setFilters({...app.filters, grayscale:1-g});
+  		
+  		if(g < 0.09) {
+  			if(b5.fsbtn) b5.fsbtn.textContent = 'GET OUT OF MY HEAD';
+  			birds.setOutputGain(999);
+  			app.display.stage.skew.set(3,3);
+  			mus.stop();
+  			setTimeout(k => game.Sfx.stopAll(false, true), 2000);
+  			setTimeout(k => app.canvas.style.zoom = 1e-3, 3900);
+  			setTimeout(k => navigator.app ? navigator.app.exitApp(): window.close(),4000);
+  			app.active = false;
+  		}
+  	}
+  	else if(d > 300 && d < 350) {
+  		birds.setPlaybackSpeed(1);
+  	}
+  	
+  },0);
+
+};
+b5.addSceneResources = function(scene, data, game) {
+	//Resources that will be added to scene, this will be called before LoadScene
+  
+  //Temporary
+  
+  var amb_birds = new b5.Sound('SfxAmbientDayBirds', data.resourcePath + 'amb_worldmap_daybirds.ogg', false, false, false, {limiter:true});
+  amb_birds.output_gain = game.Sfx.volume;
+  amb_birds.onDestroy = game.Sfx.remove;
+  amb_birds.loop = true;
+  amb_birds.setCompressor(-100,0,5,0.03,0.06);
+  game.Sfx.add(amb_birds);
+  scene.addResource(amb_birds, 'sound');
+};
+b5.onSceneUnload = function(world, scene, data, game, clearResources) {
+    //Called when app is about to remove the scene, if clearResources is true, that means the app will clean the resources of the scene
+    //You can also remove created objects in b5.Game if they were created and used on the scene.
+    app.min_speed = 1/24;
+    scene.BLUR_MULTIPLIER = 0;
+    if(app.filters.grayscale) delete app.filters.grayscale;
+    app.setFilters(app.filters);
+    if(b5.fsbtn) b5.fsbtn.textContent = 'Fullscreen';
+};
+//DEPRECATED
+b5.UpdateScene = function(world, scene, data, game) {
+	//For updating actors and behaviors on your scene every frame
+
+};

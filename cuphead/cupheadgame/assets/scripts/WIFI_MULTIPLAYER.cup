@@ -1,0 +1,809 @@
+//Database to store codes (firebase)
+b5.MPDB = firebase.database(firebase.initializeApp({
+  apiKey: "AIzaSyDEDZbwpiieBUtNCysg1kv9SRbtD36fZm0",
+  authDomain: "cupheadcdv-online-codestore.firebaseapp.com",
+  databaseURL: "https://cupheadcdv-online-codestore-default-rtdb.firebaseio.com",
+  projectId: "cupheadcdv-online-codestore",
+  storageBucket: "cupheadcdv-online-codestore.appspot.com",
+  messagingSenderId: "298224054194",
+  appId: "1:298224054194:web:9486a53070a1ad7204beab",
+  measurementId: "G-CY1GFMVSMH"
+}));
+
+b5.Utils.getRandomCode = function(length) {
+	var str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	for(var i = 0, c = ""; i < length; i++) {
+		var n = str[Math.round(Math.random()*(str.length-1))];
+		n = Math.random() > 0.5 ? n.toLowerCase() : n;
+		c += n;
+	}
+	return c;
+};
+
+// Last Test: 01-Jul-2021 12:15 PM
+let iceServers = [
+	"stun:stun.l.google.com:19302",
+  "stun:stun2.l.google.com:19302"
+],
+turnServers = [
+    {
+      urls: "turns:openrelay.metered.ca:443",
+      username: "openrelayproject",
+      credential: "openrelayproject",
+    },
+    {
+      urls: "turn:openrelay.metered.ca:443?transport=tcp",
+      username: "openrelayproject",
+      credential: "openrelayproject",
+    }
+];
+//Mutiplayer variables
+b5.Game.Multiplayer = {
+	isPlayer2: false,
+	isHosting: false,
+	isGuest: false,
+	isHost: false,
+	session: "",
+	player2Joined: false,
+	wifiReady: false,
+	guest: new Peer('guest',iceServers, turnServers, 4),
+	host: new Peer('host', iceServers, turnServers, 4),
+	inputsTask: "",
+	tpTask: "",
+	guestAvatarUrl: "",
+	guestUsername: "",
+	data: {
+		teleportTimer: 0,
+		teleportInterval: 0.4,
+		status: 0,
+		inputsP1Hold: Object.clone(b5.Game.Input.player1),
+		inputsP2Hold: Object.clone(b5.Game.Input.player2),
+		prevInput_player1: Object.clone(b5.Game.Input.player1),
+		prevInput_player2: Object.clone(b5.Game.Input.player2),
+		host_statep: ['new','new'],
+		guest_statep: ['new','new'],
+		tasks: {},
+		DB_CODES: {
+			hostCode: "",
+			guestCode: ""
+		},
+		HOST_CODE: ""
+	},
+	DB_ENTRY: null,
+	FLAGS: [
+			"QUERY_GAME_DATA",
+			"QUERY_SCENE_DATA",
+			"SEND_INPUT",
+			"SEND_COORDINATES",
+			"GET_COORDINATES",
+			"GET_ACTION",
+			"SEND_ACTION",
+			"QUERY_PLAYERS_DATA",
+			"SCENE_LOADED",
+			"HIDE_LS",
+			"PLAY_EVENT",
+			"DISPATCH_EVENT",
+			"QUERY_DISCORD_UDATA",
+			"SEND_DISCORD_UDATA"
+	],
+	events: new b5.EventsManager(),
+	onGuestConnected: function(conn) {
+		var flags = b5.Game.Flags;
+		this.isHosting = true;
+	},
+	onGuestMessage: function(msg) { //Guest message recieved
+		//Decode
+		var inst = msg.split("Ξ"),
+		flags = this.FLAGS;
+		switch (flags[+inst[0]]) {
+			case "QUERY_GAME_DATA":
+				var slotdata = b5.Game.SaveSlots.currentSaveSlot,
+				data = {
+					saveslot: slotdata,
+					flags: b5.Game.Flags
+				};
+				this.host.send("0Ξ"+JSON.stringify(data));
+				break;
+			case "QUERY_SCENE_DATA":
+				var data = {
+					currentScene: b5.Game.SceneLoader.sceneId,
+				};
+				this.host.send("1Ξ"+JSON.stringify(data));
+				break;
+			case "QUERY_PLAYERS_DATA":
+				var data = {},
+				scenePlayers = sceneMain.data.players.activePlayers;
+				for (var i in scenePlayers) data[i] = sceneMain.data[i];
+				this.host.send("7Ξ"+JSON.stringify(data))
+				break;
+			case "SEND_INPUT":
+				var inputs = JSON.parse(inst[1]);
+				//Update player 2 input on host
+				
+				//Hold recieved inputs until new changes
+				for(var i in inputs) this.data.inputsP2Hold[i] = inputs[i];
+				
+			//	b5.Game.Input.player2 = inputs;
+				break;
+			case "SEND_ACTION":
+				switch (+inst[1]) {
+					case 0: //ADD PLAYER
+					  if(!this.player2Joined) {
+				  		this.addPlayer2();
+		  				this.startMPTask();
+		  				
+		  				this.host.send('506ΞOK')
+		    		}
+						break;
+
+				}
+				break;
+			case "SEND_COORDINATES":
+				//Coords of p2 guest
+				var coords = JSON.parse(inst[1]);
+
+				//Set player 2 position
+				if (sceneMain.data.players) {
+					var a2 = sceneMain.view.findActor(sceneMain.data.players.player2, true);
+					if(a2 && a2.body && a2.body.m_fixtureList) {
+						a2.setPosition(coords.p2[0], coords.p2[1]);
+						a2.body.m_linearVelocity.x = coords.p2[2];
+						a2.body.m_linearVelocity.y = coords.p2[3];
+					}
+				}
+				break;
+			case "GET_COORDINATES":
+				var sd = sceneMain.data.players,
+				allplayers = inst[1] == 'a';
+				if (sd) {
+					var pl1 = sceneMain.view.findActor(sd.player1, true),
+					pl2 = sceneMain.view.findActor(sd.player2, true),
+					plb = pl1 && pl1.body,
+					plb2 = pl2 && pl2.body,
+					crd = {
+						p1: [
+							Math.round1000(pl1?pl1.x:0),
+							Math.round1000(pl1?pl1.y:0),
+							Math.round1000(plb? plb.m_linearVelocity.x : 0),
+							Math.round1000(plb? plb.m_linearVelocity.y : 0)
+						]
+					};
+					allplayers && (crd.p2 = crd.p1);
+					this.host.send("4Ξ"+JSON.stringify(crd));
+				}
+		break;
+		case "SCENE_LOADED":
+			console.log('[host] guest has loaded resources.')
+			this.guestReady = true;
+			if (b5.Game.SceneLoader.scene_loaded) {
+				this.sendToGuest('HIDE_LS');
+				console.log('[host] Guest is already in a scene, sending AllLoaded.');
+			}
+			break;
+		case "HIDE_LS": //Hide loading screen after scene loaded
+		  +inst[1] == 1 && (this.guestReady = true);
+			console.log('[host] From guest: AllLoaded.');
+			b5.Game.SceneLoader.AllLoaded();
+			
+			this.host.send('509ΞOK');
+			break;
+		case "DISPATCH_EVENT": //Event on sceneMain.events, from guest
+		  for(var i = 0, data = inst[2].split('π'); i < data.length; i++) {
+		  	data[i] = parseValue(data[i]);
+		  }
+		  
+		  sceneMain.events.dispatch(inst[1],data);
+		  break;
+		case 'QUERY_DISCORD_UDATA':
+			this.host.send('13Ξ'+(b5.Game.DiscordLogged ? b5.Game.DiscordSession.data.avatarUrl:'') +
+			  "Ξ" + (b5.Game.DiscordLogged ? b5.Game.DiscordSession.data.username:'') );
+			break;
+		case 'SEND_DISCORD_UDATA':
+			this.guestAvatarUrl = inst[1];
+			this.guestUsername = inst[2];
+			break;
+	}
+
+},
+//host send message
+sendToGuest: function(type, msg) {
+	var data = "";
+	switch (type) {
+		case "INPUT":
+			data += "2Ξ"+JSON.stringify(msg);
+
+			this.host.send(data);
+			break;
+		case "LOAD_SCENE":
+			if(!msg) msg = {};
+			
+			var sl = b5.Game.SceneLoader,
+			ls = JSON.stringify(sl.loading_screen),
+			ldd = Object.clone(msg),
+			lvd = "",
+			svd = JSON.stringify(Object.clone(b5.Game.SaveSlots.currentSaveSlot));
+			
+			ldd.levelData = msg.levelData;
+			
+			lvd = JSON.stringify(ldd);
+			
+			data += "3Ξ"+ sl.sceneId +"π"+ (sl.stopMusic?1: 0) + "π" + 
+			        (sl.fadeOutMusic?1: 0) + "π" + ls + "π" + lvd + "π" + 
+			        (sl.reload?1: 0) + "π" + (sl.bundle?1: 0) + "π" + svd;
+			this.host.send(data);
+			break;
+		case "PAUSE":
+			this.host.send("5Ξ"+(msg?1: 0));
+			break;
+		case "SCENE_LOADED":
+			this.host.send("8Ξ");
+			break;
+		case "HIDE_LS":
+			this.guestReady = true;
+			this.host.send("9Ξ");
+			break;
+		//Boss and level things
+		case 'PLAY_EVENT':
+			!msg[1] && (msg[1] = []);
+			this.host.send('10Ξ'+msg[0]+'Ξ'+msg[1].join('π'));
+			break;
+		case 'DISPATCH_EVENT':
+			!msg[1] && (msg[1] = []);
+			this.host.send('11Ξ'+msg[0]+'Ξ'+msg[1].join('π'));
+			break;
+		case 'QUERY_DISCORD_UDATA':
+			this.host.send('12Ξ');
+			break;
+	}
+},
+sendToHost: function(type, msg) {
+	var data = "";
+	switch (type) {
+		case 'DISPATCH_EVENT':
+			!msg[1] && (msg[1] = []);
+			this.guest.send('11Ξ'+msg[0]+'Ξ'+msg[1].join('π'));
+			break;
+		case 'QUERY_DISCORD_UDATA':
+	  	this.guest.send('12Ξ');
+	    break;
+	}
+},
+Initialize: function(world, data) {
+	console.log('Initialize Multiplayer');
+	//Initialize multiplayer
+	//guest side
+	var mp = b5.Game.Multiplayer,
+	tasks = mp.data.tasks;
+	//Tell host player joined
+	if (mp.isGuest && !mp.wifiReady) {
+		mp.wifiReady = true;
+		
+		//Spam send until	it's recieved
+		app.clearInterval(tasks.setInterval);
+		tasks.sendInterval = app.setInterval(k => {
+			mp.guest.send("6Ξ0");
+		},1);
+		
+		var guestSendJoinedEvt = mp.events.on('guest:onmessage', m => {
+			var r = m.split('Ξ');
+			if(+r[0] == 506 && r[1] == "OK") {
+				app.clearInterval(tasks.sendInterval);
+				mp.events.off(guestSendJoinedEvt);
+			}
+		});
+		
+		b5.Game.ShowPlayerJoinedScreen();
+		//Query player coordinates and teleport
+		mp.events.once('guest:onmessage', function(m) {
+			var r = m.split("Ξ");
+			if (+r[0] == 4) {
+				var d = JSON.secParse(r[1]),
+				a1 = world.findActor(data.players.player1, true),
+				a2 = world.findActor(data.players.player2, true);
+				
+				if(a1 && a1.body && a1.body.m_fixtureList && d.p1) a1.setPosition(d.p1[0], d.p1[1]);
+				if(a2 && a2.body && a2.body.m_fixtureList && d.p2) a2.setPosition(d.p2[0], d.p2[1]);
+			}
+			//Start multiplayer sync
+			mp.startMPTask();
+		});
+	}
+
+	//Update guest after level loaded
+	if (mp.isGuest) {
+		//Get player coordinates
+		mp.guest.send("4Ξa");
+		//Get player data
+		mp.guest.send('7Ξ');
+	}
+},
+stopMPTask: function() {
+	app.removeTask(this.inputsTask);
+},
+startMPTask: function() {
+	var m = this;
+	if (m.isHosting) {
+		this.inputsTask = "mp_input_sync_task"
+		app.removeTask(this.inputsTask);
+		app.addTask(this.inputsTask, 0, Infinity, function() {
+			
+			//Send only input updates
+			//Hold previous recieved inputs
+			
+			b5.Game.Input.player2 = m.data.inputsP2Hold;
+			
+			//Watch changes
+			var change = false;
+			for(var i in b5.Game.Input.player1) 
+				if(Math.round(b5.Game.Input.player1[i]) != Math.round(m.data.prevInput_player1[i])) {
+					change = true;
+					//Update
+					for(var a in b5.Game.Input.player1) m.data.prevInput_player1[a] = Math.round(b5.Game.Input.player1[a]);
+					break;
+				}
+			
+			if(change) {
+				m.sendToGuest('INPUT', m.data.prevInput_player1);
+			}
+			
+		}).wait = 1/60;
+	}
+
+	if (this.isGuest) {
+    //Guest version of the task
+    this.inputsTask = "mp_input_sync_task"
+		app.removeTask(this.inputsTask);
+		app.addTask(this.inputsTask, 0, Infinity, function() {
+			
+			b5.Game.Input.player1 = m.data.inputsP1Hold;
+			
+			//Watch changes
+			var change = false;
+			for(var i in b5.Game.Input.player2) 
+				if(Math.round(b5.Game.Input.player2[i]) != Math.round(m.data.prevInput_player2[i])) {
+					change = true;
+					//Update
+					for(var a in b5.Game.Input.player2) m.data.prevInput_player2[a] = Math.round(b5.Game.Input.player2[a]);
+					break;
+				}
+			
+			if(change) {
+				m.guest.send("2Ξ"+JSON.stringify(m.data.prevInput_player2));
+			}
+			
+			//Count teleport timer
+			m.data.teleportTimer < m.data.teleportInterval ? m.data.teleportTimer += app.dt: (
+				//Teleport sync position
+				(b5.Game.Flags.inLevel || b5.Game.Flags.inWorldmap) && m.guest.send("4Ξ"),
+				m.data.teleportTimer = 0
+			);
+			
+		}).wait = 1/60;
+		
+		this.events.off(this.guestInputMessageEvt);
+		this.guestInputMessageEvt = this.events.on('guest:onmessage', this.guestInputMessage);
+
+		this.data.teleportTimer = 0;
+	}
+},
+guestGeneralMessageEvt: null,
+guestGeneralMessage: function(e) { //Guest recieved message from host
+	var r = e.split("Ξ"),
+	m = b5.Game.Multiplayer;
+	switch (+r[0]) {
+		case 3: //Load scene
+			var d = r[1].split('π');
+			
+			//Parse save data back for sync
+			var data = JSON.parse(d[7]);
+			for(var i in data) b5.Game.SaveSlots.currentSaveSlot[i] = data[i];
+			
+			b5.Game.LoadScene(isNaN(+d[0])?d[0]:+d[0], +d[1], +d[2], JSON.parse(d[3]), JSON.parse(d[4]), +d[5], +d[6]);
+			
+			break;
+		case 8: // host loaded
+			m.hostReady = true; 
+			console.log('[guest] Host has loaded resources.');
+			if (b5.Game.SceneLoader.scene_loaded) {
+				m.guest.send('9Ξ');
+				//console.log('[guest] Host is already in a scene, sending AllLoaded.');
+			}
+			break;
+		case 9: //Hide loading screen after scene loaded
+		  +r[1] == 1 && (m.hostReady = true); //Ready from resync
+			console.log('[guest] From Host: AllLoaded.');
+			
+			b5.Game.SceneLoader.AllLoaded();
+			
+			m.guest.send('509ΞOK');
+			break;
+		case 10: //Event on data.playEvent for levels
+		  
+		  //Parse numbers
+		  for(var i = 0, data = r[2].split('π'); i < data.length; i++) {
+		  	data[i] = parseValue(data[i]);
+		  }
+		  
+		  if(sceneMain.data.playEvent) {
+		  	sceneMain.data.playEvent(r[1],data,true);
+		  }
+			
+			break;
+			
+		case 11: //Event on sceneMain.events, general
+		  for(var i = 0, data = r[2].split('π'); i < data.length; i++) {
+		  	data[i] = parseValue(data[i]);
+		  }
+		  
+		  sceneMain.events.dispatch(r[1],data);
+		  break;
+		case 12: // QUERY_DISCORD_UDATA
+		  m.guest.send('13Ξ'+(b5.Game.DiscordLogged ? b5.Game.DiscordSession.data.avatarUrl:'') +
+			  "Ξ" + (b5.Game.DiscordLogged ? b5.Game.DiscordSession.data.username:''));
+		  break;
+		case 13:
+			m.guestAvatarUrl = r[1];
+			m.guestUsername = r[2];
+			break;
+			
+	}
+},
+guestInputMessage: null,
+guestInputMessage: function(e) {
+	var r = e.split("Ξ"),
+	m = b5.Game.Multiplayer;
+	switch (+r[0]) {
+		case 2: //Input from p1
+			var input = JSON.parse(r[1]);
+			//Write
+			
+			for(var i in input) m.data.inputsP1Hold[i] = input[i];
+		//	b5.Game.Input.player1 = input;
+
+			//Send p2 inputs
+		//	m.guest.send("2Ξ"+JSON.stringify(b5.Game.Input.player2));
+
+			
+			break;
+		case 4: //Coordinates
+			var coords = JSON.parse(r[1]);
+
+			//Set player 1 position
+			if (sceneMain.data.players) {
+				var a1 = sceneMain.view.findActor(sceneMain.data.players.player1, true);
+				if(a1 && a1.body && a1.body.m_fixtureList) {
+					a1.setPosition(coords.p1[0], coords.p1[1]);
+					a1.body.m_linearVelocity.x = coords.p1[2];
+					a1.body.m_linearVelocity.y = coords.p1[3];
+				}
+				
+				//Set player 2 position
+				//(actually set only one, the 2nd is going to be sent to host)
+				/*
+				var a2 = sceneMain.view.findActor(sceneMain.data.players.player2, true);
+				if(a2 && a2.body && a2.body.m_fixtureList) a2.setPosition(coords.p2[0], coords.p2[1]);
+				*/
+				
+				var sd = sceneMain.data.players,
+				pl2 = sceneMain.view.findActor(sd.player2, true),
+				plb = pl2.body,
+				crd = {
+					p2: [
+						Math.round1000(pl2.x),
+						Math.round1000(pl2.y),
+						Math.round1000(plb? plb.m_linearVelocity.x : 0),
+						Math.round1000(plb? plb.m_linearVelocity.y : 0)
+					]
+				};
+				m.guest.send("3Ξ"+JSON.stringify(crd));
+				
+			}
+			
+			break;
+		case 5: //Pause
+			var d = +r[1];
+			d ? b5.Game.PauseMenu.show(b5.Game.Flags.inWorldmap ? "worldmap": b5.Game.Flags.inLevel ? "level": null):
+			b5.Game.Flags.inPauseMenu && b5.Game.PauseMenu.hide();
+			break;
+		case 7: //Players data
+			var d = JSON.parse(r[1]);
+			for (var i in d) sceneMain.data[i] = d[i];
+			break;
+	}
+},
+onGuestDisconnected: function() {
+	var mult = b5.Game.Multiplayer;
+	mult.removePlayer2();
+	mult.isPlayer2 = false;
+	mult.isGuest = false;
+	mult.isHosting = false;
+	mult.stopMPTask();
+	mult.wifiReady = false;
+	mult.guestAvatarUrl = "";
+	mult.guestUsername = "";
+	b5.Game.PauseMenu.updateAvatarDisplays();
+},
+onHostError: function(reason) {},
+addPlayer2: function() {
+	b5.Game.Input.reset();
+	sceneMain.data.createPlayer(
+		b5.Game.SaveSlots.currentSaveSlot.isPlayer1Mugman ? 'cuphead': 'mugman',
+		true, true, true
+	);
+	b5.Game.ShowPlayerJoinedScreen();
+	this.player2Joined = true;
+	sceneMain.data.initializePlayers();
+	
+	b5.Game.PauseMenu.updateAvatarDisplays();
+},
+removePlayer2: function() {
+	if (this.player2Joined) {
+		this.player2Joined = false;
+		this.session = "";
+		if (this.isGuest) {
+			b5.Game.LoadScene('title', 0, 1, {
+				hide_anim: 'open', show_anim: 'close', music_fade_speed: 0.35
+			});
+			this.guest.close();
+		} else {
+			this.isHosting = false;
+			var player2 = sceneMain.data.players.player2;
+			sceneMain.data.removePlayer(player2);
+		}
+		b5.Game.Input.reset();
+	}
+	
+	this.isGuest = false;
+	this.isHost = false;
+	this.isPlayer2 = false,
+	this.player2Joined = false,
+	this.wifiReady = false;
+	this.guestAvatarUrl = "";
+	this.guestUsername = "";
+	b5.Game.PauseMenu.updateAvatarDisplays();
+	
+	//Clear room in database
+	try{b5.MPDB.ref(this.data.HOST_CODE).remove()}catch(e){}
+},
+startGuest: function(wsock) {
+	var flags = b5.Game.Flags;
+	this.isGuest = true;
+	this.isPlayer2 = true;
+	this.player2Joined = true;
+},
+setGuest: function(success, failure, timeout) {
+	var mlt = this,
+	fail = false,
+	succ = false;
+  mlt.guest.close();
+	var onGetHostCode = function(snapshot) {
+		var data = snapshot.val();
+		if(data && data.hostCode) {
+			//Connect to host
+			mlt.guest.connect(data.hostCode, onConnect);
+			//Off
+			mlt.DB_ENTRY.off('value', onGetHostCode);
+		}
+		else if(!data) {
+			mlt.DB_ENTRY.off('value', onGetHostCode);
+			fail = true;
+			failure && failure();
+		}
+	},
+	onConnect = function(c) {
+		//Upload guest code to database
+		mlt.DB_ENTRY.child('guestCode').set(c)
+		   .then(s => success && success())
+		   .catch(s => failure && failure());
+	}
+	
+  this.session = "Guest";
+
+	var pnt = promptAsync('INPUT HOST CODE','');//b5.Game.Texts.texts.get_code_from_host);
+	sceneMain.active = false;
+	
+	pnt.catch(prh => {
+		sceneMain.active = true;
+	 	fail = true;
+		failure && failure();
+		this.guest.close();
+	});
+	
+	pnt.then( prh => {
+		sceneMain.active = true;
+		if (prh == null || prh == "") {
+			fail = true;
+			failure && failure();
+			this.guest.close();
+		}
+		else {
+			
+			//Connect to database
+			mlt.DB_ENTRY = b5.MPDB.ref(prh);
+			
+			//Get codes
+			mlt.DB_ENTRY.on('value', onGetHostCode);
+	
+			this.guest.onError = function(err) {
+				b5.Game.Multiplayer.events.dispatch('guest:error', err);
+				!fail && failure && (fail=true,failure());
+			}
+			this.guest.onOpen = function() {
+				console.log('[guest] Connected to host');
+	
+				var mul = b5.Game.Multiplayer;
+				mul.events.dispatch('guest:open');
+				
+				b5.Game.addCheev(b5.Game.Texts.texts.roomFound, b5.Game.Texts.texts.wifiConnecting);
+				
+				//General events
+				mul.events.off(mul.guestGeneralMessageEvt);
+				mul.guestGeneralMessageEvt = mul.events.on('guest:onmessage', mul.guestGeneralMessage);
+			}
+			this.guest.onClose = function() {
+				console.log('[guest] Closed');
+				
+				b5.Game.Multiplayer.isGuest && b5.Game.addCheev(b5.Game.Texts.texts.wifiDisconnected);
+				
+				b5.Game.Multiplayer.events.dispatch('guest:close');
+			}
+	
+			this.guest.onMessage = function(m) {
+				var id = +m.data.substr(0,m.data.indexOf('Ξ'));
+				app.debug && id != 2 && console.log('Recieved: ' + (m.data? b5.Game.Multiplayer.FLAGS[id] :"nomsg"));
+				b5.Game.Multiplayer.events.dispatch('guest:onmessage', m.data);
+			}
+			
+			//Connection states
+			this.guest.onConnectionState = st => {
+				var hsp = b5.Game.Multiplayer.data.host_statep;
+				hsp[0] = st;
+				b5.Game.addCheev('[guest] ' + hsp[0], 'ice: '+hsp[1]);
+				
+				if(st == "failed" && b5.Game.Multiplayer.player2Joined) b5.Game.Multiplayer.guest.close();
+			}
+			this.guest.onIceConnectionState = st => {
+				var hsp = b5.Game.Multiplayer.data.host_statep;
+				hsp[1] = st;
+				b5.Game.addCheev('[guest] ' + hsp[0], 'ice: '+hsp[1]);
+			}
+	
+		//	this.guest.connect(code2, onConnect);
+			
+			}
+	});
+ 
+},
+HostStarted: false,
+setHost: function(success, failure) {
+	this.host.close();
+	this.isHost = true;
+	//Prepare
+	var host = this.host,
+	succ = false,
+	m = b5.Game.Multiplayer,
+	onCodesUpdate = function(snapshot) {
+		var data = snapshot.val();
+		if(data && data.guestCode && !succ) {
+			 host.connect(data.guestCode);
+			 
+			 succ = true;
+			 m.DB_ENTRY.off('value', onCodesUpdate);
+			 success && success();
+		}
+		else if(!data) {
+			m.DB_ENTRY.off('value', onCodesUpdate);
+			failure && failure();
+		}
+	}
+	startPrompt = function() {
+		var code = host.getCode();
+		
+		//Clear previous code entries
+		try{b5.MPDB.ref(m.data.HOST_CODE).remove()}catch(e){}
+		
+		//Generate room code
+		m.data.HOST_CODE = b5.Utils.getRandomCode(6);
+		
+		//Reference entry in database
+		m.DB_ENTRY = b5.MPDB.ref(m.data.HOST_CODE);
+		
+		//Set initial data
+		m.DB_ENTRY.set({
+			hostCode: code,
+			guestCode: ""
+		})
+		.then(_ => {
+			//On entry set, wait for guest code on update
+			m.DB_ENTRY.on('value', onCodesUpdate);
+		})
+		.catch(_ => {
+			//On error
+			failure && failure();
+			m.data.HOST_CODE = "";
+			m.DB_ENTRY = null;
+		});
+    
+	}
+	
+	this.session = "Host";
+	
+	this.host.offer(e => console.log('[host] Started'));
+	this.host.onIceReady = e => startPrompt();
+	this.host.onOpen = function() {
+		!succ && success && (succ = true, success());
+		b5.Game.Multiplayer.onGuestConnected();
+		console.log('[host] Guest connected');
+		b5.Game.Multiplayer.events.dispatch('host:open');
+		
+		b5.Game.addCheev(b5.Game.Texts.texts.player2Connected, b5.Game.Texts.texts.waitForPlayerJoin);
+		
+		//Clear room in database
+  	try{b5.MPDB.ref(this.data.HOST_CODE).remove()}catch(e){}
+	}
+	this.host.onError = function(e) {
+		console.log('[host] Peer Error. Error Object Below');
+		console.log(e)
+		!succ && failure && failure();
+		b5.Game.Multiplayer.events.dispatch('host:error', e);
+	}
+	this.host.onMessage = function(r) {
+		var id = +r.data.substr(0,r.data.indexOf('Ξ'));
+		app.debug && id != 2 && console.log('Recieved: ' + (r.data? b5.Game.Multiplayer.FLAGS[id] :"nomsg"));
+
+		b5.Game.Multiplayer.onGuestMessage(r.data);
+		b5.Game.Multiplayer.events.dispatch('host:onmessage', r.data);
+	}
+	this.host.onClose = function() {
+		console.log('[host] Closed');
+		
+		b5.Game.Multiplayer.player2Joined && b5.Game.addCheev(b5.Game.Texts.texts.player2Disconnected);
+		
+		b5.Game.Multiplayer.onGuestDisconnected();
+		b5.Game.Multiplayer.events.dispatch('host:close');
+		b5.Game.Multiplayer.data.HOST_CODE = "";
+	}
+	
+	//Connection states
+	this.host.onConnectionState = st => {
+		var hsp = b5.Game.Multiplayer.data.host_statep;
+		hsp[0] = st;
+		b5.Game.addCheev('[host] ' + hsp[0], 'ice: '+hsp[1]);
+	}
+	this.host.onIceConnectionState = st => {
+		var hsp = b5.Game.Multiplayer.data.host_statep;
+		hsp[1] = st;
+		b5.Game.addCheev('[host] ' + hsp[0], 'ice: '+hsp[1]);
+	}
+	
+},
+resetConnect: function() {
+	this.host.close();
+	this.guest.close();
+}
+
+};
+
+b5.Game.Multiplayer.canExecute = function(player) {
+	return (!this.isHost && !this.isGuest) ||
+		(this.isHost && player.id != "playerTwo") ||
+		(this.isGuest && player.id != "playerOne");
+};
+
+b5.Game.Multiplayer.sendToNone = f => void 0;
+b5.Game.Multiplayer.target = function() {
+	switch(this.session) {
+		case 'Host': return 'Guest';
+		case 'Guest': return 'Host';
+		default: return 'None';
+	}
+};
+
+b5.Game.Multiplayer.events.on('host:close',r => {
+	b5.Game.SceneLoader.reset();
+	b5.Game.Multiplayer.removePlayer2();
+});
+b5.Game.Multiplayer.events.on('guest:close',r => {
+	b5.Game.SceneLoader.reset();
+	b5.Game.Multiplayer.removePlayer2();
+});

@@ -1,0 +1,84 @@
+//IDs are from original Cuphead savefile.
+b5.Game.GameDefIDs = {
+	weapons: {
+		"2147483647": "empty",
+		"1456773641": "peashooter",
+		"1456773649": "spread",
+		"1460621839": "chaser",
+		"1467024095": "lobber",
+		"1466416941": "charge",
+		"1466518900": "roundabout",
+		"1457006169": "unused?",
+		"fan-exploder": "exploder",
+		"empty": 2147483647,
+		"peashooter": 1456773641,
+		"spread": 1456773649,
+		"chaser": 1460621839,
+		"lobber": 1467024095,
+		"roundabout": 1466518900,
+		"charge": 1466416941,
+		"unused?": 1457006169,
+		"exploder": "fan-exploder"
+	},
+	charms: {
+		"2147483647": "empty",
+		"1461001046": "smokebomb",
+		"1460832742": "heart",
+		"1460880866": "coffee",
+		"1487051212": "psugar",
+		"1500641115": "twinheart",
+		"1500621999": "whetstone",
+		"1522153206": "cookie",
+		"temp": "drew",
+		"empty": 2147483647,
+		"smokebomb": 1461001046,
+		"heart": 1460832742,
+		"coffee": 1460880866,
+		"psugar": 1487051212,
+		"twinheart": 1500641115,
+		"whetstone": 1500621999,
+		"cookie": 1522153206,
+		"drew": "temp"
+	},
+	supers: {
+		"2147483647": "empty",
+		"1456815409": "superart1",
+		"1495012282": "superart2",
+		"1467617939": "superart3",
+		"empty": 2147483647,
+		"superart1": 1456815409,
+		"superart2": 1495012282,
+		"superart3": 1467617939
+	}
+};
+b5.Game.LevelIDs = {
+	veggies: 6,
+	slime: 1450863107,
+	blimp: 1449745424,
+	flower: 1450266910,
+	frogs: 7,
+	forestfollies: 1464969490,
+	treetoptrouble: 1464969491,
+	mausoleum1: 1481199742
+};
+b5.Game.WorldIDs = {
+	world1: 3,
+	world2: 4,
+	world3: 5,
+	finale: 6,
+	dlc: 7
+};
+b5.Game.GradeTable = [
+	"?", "D", "D+", "C-", "C", "C+",
+	"B-", "B", "B+", "A-", "A", "A+", 
+	"S", "P"
+];
+
+b5.Game.GetItemName = function(id) {
+	for(var i in this.GameDefIDs)
+	  if(id in this.GameDefIDs[i]) return	this.GameDefIDs[i][id];
+}
+b5.Game.GetItemId = function(name) {
+	for(var i in this.GameDefIDs)
+	  if(name in this.GameDefIDs[i]) return	this.GameDefIDs[i][name];
+}

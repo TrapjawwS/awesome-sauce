@@ -1,0 +1,11 @@
+{
+	"bitmap": [{
+		"name": "ChargeEquipIcon",
+		"src": "player/weapons/charge/SpriteAtlasTexture_ChargeEquipIcon-0.png"
+	}],
+	"brush": [{
+	  	"name": "charge:EQUIP_ICON",
+	  	"bitmaps": ["ChargeEquipIcon"],
+	  	"frames": "player/weapons/charge/SpriteAtlasTexture_ChargeEquipIcon.csv"
+  	}]
+}

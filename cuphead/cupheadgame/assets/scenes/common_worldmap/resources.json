@@ -1,0 +1,130 @@
+{
+	"sound": [
+		{
+			"name": "LevelMenuUpSfx",
+			"src": "scenes/common_worldmap/sfx_worldmap_level_menu_up.ogg",
+			"reuse": true,
+			"category": "sfx"
+		},
+		{
+			"name": "StartLevelSfx",
+			"src": "scenes/common_worldmap/sfx_WorldMap_LevelSelect_StartLevel.ogg",
+			"reuse": true,
+			"global_stream": true,
+			"persist": true,
+			"category": "sfx",
+			"destroyOnEnd": true
+		},
+		{
+			"name": "DifficultySettingsAppearSfx",
+			"src": "sfx_WorldMap_LevelSelect_DiffucultySettings_Appear.ogg",
+			"reuse": true,
+			"category": "sfx"
+		},
+		{
+			"name": "SelBubbleAppearSfx",
+			"src": "scenes/common_worldmap/sfx_WorldMap_LevelSelect_BubbleAppear.ogg",
+			"reuse": true,
+			"category": "sfx"
+		},
+		{
+			"name": "SelBubbleDisappearSfx",
+			"src": "scenes/common_worldmap/sfx_WorldMap_LevelSelect_BubbleDisappear.ogg",
+			"reuse": true,
+			"category": "sfx"
+		},
+		{
+			"name": "DifficultySettingsHoverSfx",
+			"src": "scenes/common_worldmap/sfx_WorldMap_LevelSelect_DiffucultySettings_Hover.ogg",
+			"reuse": true,
+			"category": "sfx"
+		},
+		{
+			"name": "MenuCardUpSfx",
+			"src": "scenes/common_worldmap/Menu_CardUp.ogg",
+			"category": "sfx",
+			"reuse": true
+		},
+		{
+			"name": "MenuCardDownSfx",
+			"src": "scenes/common_worldmap/Menu_CardDown.ogg",
+			"category": "sfx",
+			"reuse": true
+		},
+		{
+			"name": "MenuCardFlipSfx",
+			"src": "scenes/common_worldmap/Menu_Cardflip.ogg",
+			"category": "sfx",
+			"reuse": true
+		},
+		{
+			"name": "MenuEquipMoveSfx",
+			"src": "scenes/common_worldmap/Menu_Equipment_Move.ogg",
+			"category": "sfx",
+			"reuse": true
+		},
+		{
+			"name": "MenuLockedSfx",
+			"src": "scenes/common_worldmap/Menu_Locked.ogg",
+			"category": "sfx",
+			"reuse": true
+		},
+		{
+			"name": "MenuCardPageSfx",
+			"src": "scenes/common_worldmap/Menu_Equipment_Page.ogg",
+			"category": "sfx",
+			"reuse": true
+		}
+	],
+	"bitmap": [
+		{
+			"name": "TitleCardGeneralArea",
+			"src": "scenes/common_worldmap/title_card_background_general_area.png"
+		},
+		{
+			"name": "TitleCardBossLevel",
+			"src": "scenes/common_worldmap/title_card_background.png"
+		},
+		{
+			"name": "TitleCardFader",
+			"src": "scenes/common_worldmap/title_card_fader.png"
+		},
+		{
+			"name": "TitleCardInBitmap",
+			"src": "scenes/common_worldmap/SpriteAtlasTexture_TitleCardIn-0.png"
+		},
+		{
+			"name": "TitleCardLegalLineBitmap",
+			"src": "scenes/common_worldmap/title_card_legal_line.png"
+		},
+		{
+			"name": "CupheadHenrietteFontBitmap",
+			"src": "fonts/CupheadHenriette-A-merged-0.png"
+		},
+		{
+			"name": "CupheadPosterFontBitmap0",
+			"src": "fonts/CupheadPoster-Regular(Cyr_Lat_English)-0.png"
+		},
+		{
+			"name": "CupheadPosterFontBitmap1",
+			"src": "fonts/CupheadPoster-Regular(Cyr_Lat_English)-1.png"
+		}
+	],
+	"brush": [
+		{
+			"name": "TitleCardInAtlas",
+			"bitmaps": ["TitleCardInBitmap"],
+			"frames": "scenes/common_worldmap/SpriteAtlasTexture_TitleCardIn.csv"
+		},
+		{
+			"name": "CupheadHenrietteFont",
+			"bitmaps": ["CupheadHenrietteFontBitmap"],
+			"frames": "fonts/CupheadHenriette-A-merged.bft"
+		},
+		{
+			"name": "CupheadPosterFont",
+			"bitmaps": ["CupheadPosterFontBitmap0", "CupheadPosterFontBitmap1"],
+			"frames": "fonts/CupheadPoster-Regular(Cyr_Lat_English).bft"
+		}
+	]
+}

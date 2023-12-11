@@ -1,0 +1,418 @@
+return function(thisPlayer, flags, world, scene, game, wpnData) {
+	/* Setup */
+
+	var thisAtlas = scene.findResource('PeashooterAtlas', 'brush'),
+	viewLayer = world.findActor(thisPlayer.parent.name, true),
+	body = wpnData.body,
+	shootTime = 0,
+	shootChange = false,
+	shootAngle = 0,
+	time = 0,
+	thisWeapon = null,
+	name = "charge",
+	chargeParticle = null,
+  shooting = false,
+  chargeTime = 0,
+  bulletCharged = false,
+  
+	sfxBulletDeath = scene.findResource('WeaponDeathSfx', 'sound'),
+	sfxBulletHit = scene.findResource('ShootHitSfx', 'sound'),
+	sfxChargeStart = [
+		scene.findResource('ChargeStartSfx1','sound'),
+		scene.findResource('ChargeStartSfx2','sound'),
+		scene.findResource('ChargeStartSfx3','sound'),
+		scene.findResource('ChargeStartSfx4','sound'),
+		scene.findResource('ChargeStartSfx5','sound')
+	],
+	sfxChargeReady = scene.findResource('ChargeReadySfx','sound'),
+	sfxChargeSmallShot = [
+		scene.findResource('ChargeFireSmallSfx1','sound'),
+		scene.findResource('ChargeFireSmallSfx2','sound'),
+		scene.findResource('ChargeFireSmallSfx3','sound'),
+		scene.findResource('ChargeFireSmallSfx4','sound'),
+		scene.findResource('ChargeFireSmallSfx5','sound')
+	],
+	sfxChargeFullShot = [
+		scene.findResource("ChargeFullShotSfx1","sound"),
+		scene.findResource("ChargeFullShotSfx2","sound"),
+		scene.findResource("ChargeFullShotSfx3","sound")
+	],
+	sfxChargeFullImpact = [
+		scene.findResource("ChargeFullImpactSfx1","sound"),
+		scene.findResource("ChargeFullImpactSfx2","sound"),
+		scene.findResource("ChargeFullImpactSfx3","sound")
+	];
+	
+	var atlas = scene.findResource('ChargeAtlas','brush');
+	
+	const WPN_FIXTURE = {
+		type: 0,
+		width: 1,
+		height: 1,
+		friction: 0,
+		restitution: 0,
+		density: 1,
+		is_sensor: true
+	};
+	
+	/*Weapon behaviors*/
+	var weapon = {
+		Spawn: function(pos, angle, charged) {
+			/*Spawning bullet(s)*/
+
+			//Actor with kinematic body
+			var bullet = new b5.Actor();
+		//	bullet.radius = charged? wpnData.body.hitbox.size_charged:wpnData.body.hitbox.size;
+			bullet.atlas = atlas;
+			bullet.x = thisPlayer.x + pos[0];
+			bullet.y = thisPlayer.y + pos[1];
+			bullet.despawnTime = wpnData.despawnTime;
+			bullet.damage = (charged ?	wpnData.damageFull : wpnData.damageSmall) * thisPlayer.data.damageMultiplier;
+			bullet.time = 0;
+			bullet.tag = thisPlayer.data.bulletTag;
+			bullet.tags = [bullet.tag]
+			bullet.angle = angle;
+			bullet.layer = thisPlayer.layer-1;
+			bullet.supermeter_score = charged ? wpnData.supermeter_scoreFull : wpnData.supermeter_score;
+			bullet.charged = charged;
+			bullet.rotation = angle;
+			bullet._scale = wpnData.scale;
+			bullet.layer = thisPlayer.layer + 1;
+			
+			if(charged) bullet.playAnimWithEnd('charge_intro', f => f.playAnim('charge_loop',true));
+			else bullet.playAnim('charge_small_loop',true);
+
+			viewLayer.addActor(bullet);
+
+			bullet.destroyBullet = function(timeout) {
+	       this.release(true);
+			}
+
+			bullet.initBody(body.bodyType, body.fixedRotation, true);
+			
+			WPN_FIXTURE.type = b5.Shape[body.shape],
+			WPN_FIXTURE.width = charged ? body.size_charged[0]:body.size[0],
+			WPN_FIXTURE.height = charged ? body.size_charged[1]:body.size[1],
+			WPN_FIXTURE.friction = body.friction || 0,
+			WPN_FIXTURE.restitution = body.restitution || 0,
+			WPN_FIXTURE.density = body.density || 1,
+			WPN_FIXTURE.is_sensor = true;
+				
+			bullet.addFixture(WPN_FIXTURE);
+			
+			bullet.body.m_linearVelocity.x = Math.cos(angle)* (charged ? wpnData.speedFull : wpnData.speedSmall);
+		  bullet.body.m_linearVelocity.y = Math.sin(angle)* (charged ? wpnData.speedFull : wpnData.speedSmall);
+
+			bullet.onTick = function() {
+				this.time += app.dt;
+				if (this.time > this.despawnTime) {
+					this.destroyBullet(true);
+					return;
+				}
+		
+				//Check overlaps
+				var ols = this.A_overlaps;
+				for (var i = 0; i < ols.length; i++)
+					if (ols[i]) {
+					var l = ols[i];
+					if (ols[i].tags.indexOf(thisPlayer.data.enemy) != -1) {
+						//Enemy was hit
+						if (!this.destroyed) {
+							this.destroyBullet();
+							l.onBulletHit && l.onBulletHit(this);
+							this.destroyed = true;
+							this.onEnemyHit && this.onEnemyHit(l);
+							sfxBulletHit.play();
+							
+							if(this.charged) {
+								sfxChargeFullImpact[b5.Maths.randomRange(0,2)].play();
+								thisWeapon.SpawnParticle("chargeFullHit", [this.x,this.y]);
+							}
+							else {
+								thisWeapon.SpawnParticle("chargeSmallHit", [this.x,this.y]);
+							}
+
+							//Add score to player
+							thisPlayer.data.supermeter < thisPlayer.data.max_supermeter_score && (thisPlayer.data.supermeter += this.supermeter_score);
+							
+							//Add score to level
+							scene.data.Statistics.damage_given += this.damage;
+						}
+						return;
+					}
+				/*	if ((l.isWall || l.isFloor) && ols[i].tags.indexOf('ignoreBullets') == -1) {
+						//Scenery was hit
+						this.destroyBullet();
+						sfxBulletDeath.play();
+						return;
+					}*/
+				}
+			}
+
+		},
+		SpawnParticle: function(type, pos, optTarget) {
+			/*Bullet particle*/
+			switch (type) {
+				case "chargeParticle":
+					var p = new b5.Actor,
+					q = new b5.Actor();
+					p.addActor(q);
+					q.atlas = atlas;
+					p.setPosition(pos[0], pos[1]);
+					p.layer = thisPlayer.layer + 1; 
+					thisPlayer.parent.addActor(p);
+					p._scale = 0.92;
+					q.playAnim('spark_charging',true);
+					p.tags = ["playerParticle"];
+					p.charged = false;
+					
+					p.Sprite = q;
+					
+					//Charge fx
+					p.addChargePartFx = function() {
+						var f = new b5.Actor;
+						f.atlas = atlas;
+						f.rotation = Math.PI * b5.Maths.randomRange(-1,1,true);
+						this.addActor(f);
+						f.playAnimWithEnd(this.charged ? 'spark_charging_fx_full' : 'charging_fx_a', fx => fx.destroy());
+					}
+					
+					p.setInterval(t => t.data.addChargePartFx(), 0.3);
+					p.addChargePartFx();
+
+					//Follow player all the time
+					p.onTick = function() {
+						var so = thisPlayer.data.shootOffset;
+						p.setPosition(thisPlayer.x + so[0], thisPlayer.y + so[1]);
+					}
+					return p; //Return particle for control
+			case "bulletSpawn":
+					var p = new b5.Actor;
+					p.atlas = atlas;
+					p.rotation = Math.PI * b5.Maths.randomRange(-1, 1, true);
+					p.setPosition(pos[0], pos[1]);
+					p.layer = thisPlayer.layer + (thisPlayer.data.shootAngle == b5.Maths.degToRad(90) || flags.ducking? 1: 0);
+					thisPlayer.parent.addActor(p);
+					p._scale = 0.92;
+					p.playAnim('spark');
+					p.center_atlas = true;
+					p.tags = ["playerParticle"];
+					p.onAnimEnd = p.destroy;
+					p.spawned_when_running = flags.running;
+					p.facing = thisPlayer.data.facing;
+
+					p.onTick = function() {
+						var so = thisPlayer.data.shootOffset;
+						thisPlayer.data.facing == this.facing &&
+						this.spawned_when_running && flags.running &&
+						!flags.inAir && p.setPosition(thisPlayer.x + so[0], thisPlayer.y + so[1]);
+					}
+				  break;
+			case "chargeSmallHit":
+					var p = new b5.Actor;
+			  	p.atlas = atlas;
+					p.setPosition(pos[0], pos[1]);
+					p.layer = thisPlayer.layer + 1;
+					thisPlayer.parent.addActor(p);
+					p._scale = wpnData.scale;
+					p.playAnimWithEnd('hit_small',f=>f.destroy());
+					p.tags = ["playerParticle"];
+					p.rotation = Math.PI * b5.Maths.randomRange(-1, 1, true);
+					break;
+				case "chargeFullHit":
+					var p = new b5.Actor;
+			  	p.atlas = atlas;
+					p.setPosition(pos[0], pos[1]);
+					p.layer = thisPlayer.layer + 1;
+					thisPlayer.parent.addActor(p);
+					p._scale = wpnData.scale;
+					p.playAnimWithEnd('hit_charged',f=>f.destroy());
+					p.tags = ["playerParticle"];
+					p.rotation = Math.PI * b5.Maths.randomRange(-1, 1, true);
+					break;
+				case "chargeShotFX":
+					var p = new b5.Actor;
+			  	p.atlas = atlas;
+					p.setPosition(pos[0], pos[1]);
+					p.layer = thisPlayer.layer + 1;
+					p._scale = wpnData.scale;
+					thisPlayer.parent.addActor(p);
+					p.playAnimWithEnd('shoot_charged',f=>f.destroy());
+					p.tags = ["playerParticle"];
+					p.rotation = thisPlayer.data.shootAngle;
+					break;
+			}
+		},
+		SpawnEX: function(pos, angle) {
+			/*Spawning EX bullet(s)*/
+			//Actor with kinematic body
+			var exb = new b5.Actor();
+			exb.radius = wpnData.body.ex.hitbox.size;
+			exb.x = thisPlayer.x + pos[0];
+			exb.y = thisPlayer.y + pos[1];
+			exb.rotation = 0;
+			exb.atlas = atlas;
+			exb.despawnTime = wpnData.ex.despawnTime;
+			exb.damage = wpnData.ex.damage * thisPlayer.data.damageMultiplier;
+			exb.time = 0;
+			exb.tag = thisPlayer.data.bulletTag;
+			exb.tags = [exb.tag];
+			exb.supermeter_score = 0;
+			exb._scale = 0.8;
+			
+			exb.playAnim('ex_explosion');
+
+			viewLayer.addActor(exb);
+			exb._layer = thisPlayer.layer+1; //wpnData.body.ex.sub_layer;
+		//	viewLayer.order_changed = true;
+
+			exb.initBody(body.ex.bodyType, body.ex.fixedRotation, true);
+			
+			WPN_FIXTURE.type = b5.Shape[body.ex.shape],
+			WPN_FIXTURE.width = body.ex.size[0],
+			WPN_FIXTURE.height = body.ex.size[1],
+			WPN_FIXTURE.friction = body.ex.friction || 0,
+			WPN_FIXTURE.restitution = body.ex.restitution || 0,
+			WPN_FIXTURE.density = body.density || 1,
+			WPN_FIXTURE.is_sensor = true;
+				
+			exb.addFixture(WPN_FIXTURE);
+
+		exb.body.m_linearVelocity.x = Math.cos(angle)*wpnData.ex.speed;
+		exb.body.m_linearVelocity.y = Math.sin(angle)*wpnData.ex.speed
+		exb.inwall = false;
+		exb.destroyBullet = function() {
+			this.hitTargets = null;
+			this.release(true);
+			
+		}
+		
+		exb.hitTargets = [];
+		
+		exb.onTick = function() {
+			this.time += app.dt;
+			if (this.time > this.despawnTime) {
+				this.destroyBullet(true);
+				return;
+			}
+
+			//Check overlaps
+			var ols = this.A_overlaps; 
+			for (var i = 0; i < ols.length; i++)
+				if (ols[i]) {
+					var t = ols[i];
+					if (t.tags.indexOf(thisPlayer.data.enemy) != -1 && this.hitTargets.indexOf(t) == -1) {
+						//Enemy was hit
+						t.onBulletHit && t.onBulletHit(this);
+						this.onEnemyHit && this.onEnemyHit(t);
+						//Add score to level
+						scene.data.Statistics.damage_given += this.damage;
+						
+						//Register target as hitted
+						this.hitTargets.push(t);
+							
+				//		this.destroyBullet();
+						return;
+					}
+				
+		 		}
+
+		}
+	},
+	shootBulletBase: function() {
+		
+	 //shoot small on timer
+	 if(shootTime < wpnData.delay) return;
+	 else shootTime = 0;
+	 
+	 let charged = chargeTime >= wpnData.fullChargeTime;
+	 
+	 chargeTime = 0;
+	 bulletCharged = false;
+	 
+	 //Sfx
+	 if(charged) {
+	 	sfxChargeFullShot[b5.Maths.randomRange(0,2)].play();
+	 	
+	 	//Particle
+	 	thisWeapon.SpawnParticle("chargeShotFX", [thisPlayer.x + thisPlayer.data.shootOffset[0], thisPlayer.y + thisPlayer.data.shootOffset[1]]);
+	 }
+	 else sfxChargeSmallShot[b5.Maths.randomRange(0,4)].play();
+	 
+		thisPlayer.data.triggerShot();// = true;
+		!flags.inAir && (thisPlayer.updateAnimations = true);
+		var pos = [
+			thisPlayer.data.shootOffset[0],
+			thisPlayer.data.shootOffset[1]
+		];
+	
+		thisWeapon.Spawn(pos, thisPlayer.data.shootAngle, charged);
+		thisWeapon.SpawnParticle("bulletSpawn", [thisPlayer.x + thisPlayer.data.shootOffset[0], thisPlayer.y + thisPlayer.data.shootOffset[1]]);
+	},
+	onTick: function(bullets, exBullets) {
+		/*Updating bullets behavior*/
+		time += app.dt;
+
+		//Shooting angle changed
+		if (shootAngle != thisPlayer.data.shootAngle) {
+			shootAngle = thisPlayer.data.shootAngle;
+			shootTime -= app.dt; //Delay shoot one frame to synchronize shooting angle and position
+		}
+
+	//	if (shootTime < wpnData.delay)
+//		else shootTime = 0; 
+
+		//Shooting changed
+		shooting = flags.shooting;
+		if(flags.shooting && flags.dashing && !flags.damageHit)shooting = false;
+		
+		if(shooting) {
+			shootTime += app.dt;
+			if(chargeTime < wpnData.fullChargeTime) chargeTime += app.dt;
+			else if(!bulletCharged) {
+				//Ready
+				bulletCharged = true;
+				chargeParticle.charged = true;
+				chargeParticle.Sprite.playAnim('spark_charged',true);
+				sfxChargeReady.play();
+			}
+			
+		}
+		
+		if (shootChange != shooting) {
+			shootChange = shooting;
+			
+			//add particle and play charge start sfx
+			if(shooting) {
+			  chargeParticle == null && (chargeParticle = thisWeapon.SpawnParticle("chargeParticle", [thisPlayer.x + thisPlayer.data.shootOffset[0], thisPlayer.y + thisPlayer.data.shootOffset[1]]));
+			
+				//Start sfx
+		  	sfxChargeStart[b5.Maths.randomRange(0,4)].play();
+			}else {
+				//Remove
+				if(chargeParticle) {
+					chargeParticle.destroy();
+					chargeParticle = null;
+				}
+				
+				//Shoot small or full depending	on chargeTime
+	  		thisWeapon.shootBulletBase();
+			}
+			
+		}
+
+	},
+	onShootingStopped: function(playerDamaged) {
+		shootChange = false;
+
+		if(chargeParticle) {
+			chargeParticle.destroy();
+			chargeParticle = null;
+		}
+		thisWeapon.shootBulletBase();
+		
+	}
+};
+
+return thisWeapon = weapon;
+};

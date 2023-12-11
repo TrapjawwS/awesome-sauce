@@ -1,0 +1,22 @@
+(function() {
+	b5.Game.Flags = {
+		inPauseMenu: false,
+		inSomeMenu: false,
+		inMainGame: false,
+		pausingEnabled: true,
+		inCutscene: false,
+		inWorldmap: false,
+		inLevel: false,
+		inEquipCard: false,
+		inNpcDialog: false,
+		inNpcTooltip: false,
+		inputEnabled: true,
+		inPlayerJoinedScreen: false,
+		playerCanExecuteSuper: true,
+		multiplayerDamageMultiplier: 0.75,
+		forceChalice: false,
+		allItemsUnlocked: true,
+		originalCupheadHud: false,
+		spookyMode: false
+	};
+})();

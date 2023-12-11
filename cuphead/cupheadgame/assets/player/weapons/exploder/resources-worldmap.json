@@ -1,0 +1,10 @@
+{
+	"bitmap": [
+	],
+	"brush": [
+		{
+	  	"name": "exploder:EQUIP_ICON",
+	  	"bitmaps": []
+  	}
+  ]
+}

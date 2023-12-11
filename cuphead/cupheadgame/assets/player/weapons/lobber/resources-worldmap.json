@@ -1,0 +1,11 @@
+{
+	"bitmap": [{
+		"name": "LobberEquipIcon",
+		"src": "player/weapons/lobber/SpriteAtlasTexture_LobberEquipIcon-0.png"
+	}],
+	"brush": [{
+	  	"name": "lobber:EQUIP_ICON",
+	  	"bitmaps": ["LobberEquipIcon"],
+	  	"frames": "player/weapons/lobber/SpriteAtlasTexture_LobberEquipIcon.csv"
+  	}]
+}

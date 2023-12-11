@@ -1,0 +1,15 @@
+{
+	"bitmap": [
+		{
+			"name": "CookieEquipIcon",
+			"src": "player/charms/cookie/SpriteAtlasTexture_Cookie-0.png"
+		}
+	],
+	"brush": [
+		{
+			"name": "cookie:EQUIP_ICON",
+			"bitmaps": ["CookieEquipIcon"],
+			"frames": "player/charms/cookie/SpriteAtlasTexture_Cookie.csv"
+		}
+	]
+}

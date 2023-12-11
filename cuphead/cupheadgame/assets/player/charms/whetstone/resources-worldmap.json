@@ -1,0 +1,15 @@
+{
+	"bitmap": [
+		{
+			"name": "WhetstoneEquipIcon",
+			"src": "player/charms/whetstone/SpriteAtlasTexture_Whetstone-0.png"
+		}
+	],
+	"brush": [
+		{
+			"name": "whetstone:EQUIP_ICON",
+			"bitmaps": ["WhetstoneEquipIcon"],
+			"frames": "player/charms/whetstone/SpriteAtlasTexture_Whetstone.csv"
+		}
+	]
+}

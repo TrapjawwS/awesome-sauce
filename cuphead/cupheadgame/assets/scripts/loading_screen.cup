@@ -1,0 +1,184 @@
+//LOADINGSCREEN
+
+(function() {
+
+	var loadScreen = new b5.Actor();
+	loadScreen.x = 0;
+	loadScreen.y = 0;
+	loadScreen.w = 512;
+	loadScreen.h = 288;
+	loadScreen.scale_x = 2.5;
+	loadScreen.scale_y = 2.5;
+	loadScreen.opacity = 0.998;
+	scene_GUI.addActor(loadScreen);
+	loadScreen.name = "loadScreen";
+	loadScreen._layer = 6;
+	loadScreen.frames_repeat = false; //Play atlas animations once
+	loadScreen.state = "closed";
+	//Fit widescreen
+	loadScreen.fit = b5.Actor.FitBest;
+
+	loadScreen.closed = true;
+	b5.Game.loadingScreen = loadScreen;
+
+	var loadingScrnBitmaps = [];
+	//Load bitmaps, atlas and animations
+	loadScreen.atlas = new b5.ImageAtlas('atlas_irisA', loadingScrnBitmaps);
+	loadScreen.atlas.parseFrames(b5.File.readSync(b5.Paths.assets + 'irisA.csv'));
+	loadScreen.atlas.parseAnims(b5.File.readSync(b5.Paths.anims + 'irisA.atlas.json'));
+
+	//Load timeline animations (fading)
+	//loadScreen.timelines.parse(b5.File.readSync(b5.Paths.anims + 'loading_screen.fade.anim.json'));
+
+	for (var i = 0; i < loadScreen.atlas.frames.length; i++) {
+		var iris_btm = new b5.Bitmap("texture2d_iris" + i, b5.Paths.assets + "irisA_" + i.zfill(4) + ".png", false);
+
+		//Add bitmaps to scene
+		loadingScrnBitmaps.push(iris_btm);
+		//Add to scene
+		scene_GUI.addResource(iris_btm, "bitmap");
+	};
+	
+	loadScreen.fadeAnim = function(to, time, onEnd) {
+		this.TweenToWithEnd('opacity', to, time, b5.Ease.linear, true, 0, onEnd);
+	}
+
+	//Loading hourglass
+	var hourglass = new b5.Actor();
+	hourglass.m_x = 135;
+	hourglass.m_y = 180;
+//	hourglass._scale = 1.15;
+	hourglass.opacity = 0;
+	scene_GUI.addActor(hourglass); // Add to scene
+	hourglass.name = "hourglass";
+	hourglass._layer = 7;
+	hourglass._av = false;
+	
+	hourglass.onTick = function() {
+		this.setPosition(
+			(scene_GUI.w / 2) - this.m_x,
+			(scene_GUI.h / 2) - this.m_y
+		)
+	}
+
+	loadScreen.hourglass = hourglass;
+	
+	b5.Game.parseResources({
+		bitmap:[{
+			name: "texture2d",
+			src: "SpriteAtlasTexture_LoaderHourglass.png"
+		}],
+		brush:[{
+			name: "texture2d_hourglass",
+			bitmaps: ["texture2d"],
+			frames: "SpriteAtlasTexture_LoaderHourglass.csv",
+			anims: "hourglass.anims.json"
+		}]
+	}, scene_GUI);
+
+	hourglass.atlas = scene_GUI.findResource("texture2d_hourglass","brush");
+	
+	hourglass.show = function() {
+		this._av = true;
+		this.opacity = 0;
+		this.TweenTo('opacity', 1, 0.6, 0, true);
+		
+		this._oy = 0;
+		if(!loadScreen.nightmare) this.current_anim != "hourglass"	&& this.playAnim('hourglass',true);
+		else {
+			this.current_anim != "nightmare" && this.playAnim('nightmare', true);
+			this._oy = -85;
+		}
+		
+		loadScreen.nightmare = false;
+	}
+	hourglass.hide = function(onHide) {
+		var onHourglassHide = function() {
+			this._av = false;
+			onHide && onHide();
+		};
+		this.opacity = 1;
+		this.TweenToWithEnd('opacity', 0, 0.6, 0, true, 0, function() {
+			b5.Utils.RunafterTime(0.2, onHourglassHide);
+		});
+	}
+
+	b5.Game.ShowLoadingScreen = function(type, showHourglass, speed) {
+		var loadScreen = b5.Game.loadingScreen;
+		
+		if( (loadScreen.state == "closed" || loadScreen.state == "closing") ) return;
+		
+		loadScreen.hourglass.opacity = 0;
+		loadScreen._av = true;
+		loadScreen.state = "closing";
+		
+		var onShow = function() {
+			if (showHourglass) loadScreen.hourglass.show();
+			loadScreen.closed = true;
+			b5.Game.GUI.disableButtons();
+			loadScreen.state = "closed";
+		};
+
+		!type && (type = 'close');
+		app.events.dispatch('showloadingscreen');
+		switch (type) {
+			case "close":
+				loadScreen.opacity = 1;
+				loadScreen.current_anim != 'close' && loadScreen.playAnim('close');
+				loadScreen.onAnimEnd = function() {
+					this.current_anim = "";
+					onShow();
+				}
+				break;
+			case "fade":
+				loadScreen.anim_frames = null; //Clear atlas animation
+				loadScreen.opacity = 0;
+				loadScreen.frame_speed = 0;
+				loadScreen.current_frame = 0;
+				loadScreen.fadeAnim(1, speed, onShow);
+		}
+	};
+
+	b5.Game.HideLoadingScreen = function(type, speed, fromSceneLoader) {
+		var loadScreen = b5.Game.loadingScreen;
+		
+		if( (loadScreen.state == "open" || loadScreen.state == "opening") && !loadScreen.hourglass.visible) return;
+		
+		loadScreen.state = "opening";
+		
+		var onHide = function() {
+			loadScreen._av = false;
+			loadScreen.state = "open";
+		},
+		startHide = function() {
+			!type && (type = 'open');
+			loadScreen.closed = false;
+			loadScreen.opacity = 1;
+			app.events.dispatch('hideloadingscreen');
+			switch (type) {
+				case 'open':
+					loadScreen.current_anim != 'open' && loadScreen.playAnim('open');
+					loadScreen.onAnimEnd = function() {
+						this.current_anim = "";
+						onHide();
+					};
+					break;
+				case 'fade':
+					loadScreen.anim_frames = null; //Clear atlas animation
+					loadScreen.frame_speed = 0;
+					loadScreen.current_frame = 0;
+					loadScreen.fadeAnim(0, speed, onHide);
+			}
+			fromSceneLoader && (
+				app.events.dispatch('loadingscreenout'),
+			 b5.onLoadingScreenOut && (
+				sceneMain.data.updateStatistics = true,
+				b5.onLoadingScreenOut(sceneMain.view, sceneMain, sceneMain.data, b5.Game)
+			));
+		};
+		//Fade out hourglass if present
+		b5.Utils.RunafterTime(0.65, function() {
+		loadScreen.hourglass.opacity > 0 ? loadScreen.hourglass.hide(startHide): startHide();
+		});
+	};
+})();

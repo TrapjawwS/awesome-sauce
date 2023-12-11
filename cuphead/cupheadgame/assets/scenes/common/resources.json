@@ -1,0 +1,50 @@
+{
+	"sound": [],
+	"bitmap": [
+		{
+			"name": "SpeechDialogsBitmap",
+			"src": "scenes/common/DialogsAtlas.png",
+			"preload": false
+		},
+		{
+			"name": "SpeechBubbleBoxBitmap",
+			"src": "scenes/common/speech_bubble_box.png",
+			"preload": false
+		},
+		{
+			"name": "CupheadFelixRegularBitmap",
+			"src": "fonts/CupheadFelix-Regular-merged-0.png"
+		},
+		{
+			"name": "EquipCardReadyAndWaitingBG",
+			"src":  "scenes/common/card_ready_and_waiting_bg.png"
+		},
+		{
+			"name": "EquipCardChecklistBG",
+			"src": "scenes/common/equip_checklist_bg_empty.png"
+		},
+		{
+			"name": "EquipCardCommonBitmap0",
+			"src": "scenes/common/SpriteAtlasTexture_EquipCardCommon-0.png"
+		}
+	],
+	"brush": [
+		{
+			"name": "SpeechDialogsAtlas",
+			"bitmaps": ["SpeechDialogsBitmap"],
+			"frames": "scenes/common/DialogsAtlas.csv",
+			"anims": "scenes/common/dialogs_frames.atlas.json"
+		},
+		{
+			"name": "CupheadFelixRegularFont",
+			"bitmaps": ["CupheadFelixRegularBitmap"],
+			"frames": "fonts/CupheadFelix-Regular-merged.bft"
+		},
+		{
+			"name": "EquipCardCommonAtlas",
+			"bitmaps": ["EquipCardCommonBitmap0"],
+			"frames": "scenes/common/SpriteAtlasTexture_EquipCardCommon.csv",
+			"anims": "scenes/common/equipCardCommon.anims.json"
+		}
+	]
+}

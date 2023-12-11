@@ -1,0 +1,467 @@
+{
+	"player": {
+		"spawn": {
+			"pos": [-365,190],
+			"facing": 1
+		}
+	},
+	"view": {
+		"layers": 7,
+		"playerLayer": 5,
+		"playerSubLayer": 3,
+		"zoom": 1.022,
+		"world_depth": 1.6,
+		"cameraExtents": [-13,0,11,0],
+		"cameraRange": 0.02
+	},
+	"physicsObjects": [
+		{
+			"name": "LevelFloor",
+			"type": "RectActor",
+			"size": [2048, 10],
+			"detectionSize": [2048,12],
+			"pos": [0, 220],
+			"color": "blue",
+			"visible": false,
+			"layer": 1,
+			"sub_layer": 2,
+			"tags": [],
+			"detectionTags": ["floor"],
+			"body": {
+				"friction": 1,
+		    "fixedRotation": true,
+		    "bodyType": "static"
+			}
+		},
+		{
+			"name": "LevelWall1",
+			"type": "RectActor",
+			"size": [10, 1000],
+			"detectionSize": [10,1000],
+			"pos": [-680, 0],
+			"color": "red",
+			"visible": false,
+			"layer": 1,
+			"sub_layer": 1,
+			"tags": [""],
+			"detectionTags": ["wall","ignoreBullets"],
+			"body": {
+				"friction": 1,
+				"fixedRotation": true,
+		    "bodyType": "static"
+			}
+		},
+		{
+			"name": "LevelWall2",
+			"type": "RectActor",
+			"size": [10, 1000],
+			"detectionSize": [10,1000],
+			"pos": [450, 0],
+			"color": "red",
+			"visible": false,
+			"layer": 1,
+			"sub_layer": 1,
+			"tags": [],
+			"detectionTags": ["wall","ignoreBullets"],
+			"body": {
+				"friction": 1,
+				"fixedRotation": true,
+		    "bodyType": "static"
+			}
+		},
+		{
+			"name": "PlatformA",
+			"type": "RectActor",
+			"size": [130, 10],
+			"detectionSize": [129,12],
+			"pos": [-500, 40],
+			"color": "green",
+			"visible": true,
+			"layer": 5,
+			"sub_layer": 1,
+			"script": "platformSprite.cup",
+			"tags": [],
+			"detectionTags": ["platform"],
+			"body": {
+				"friction": 1,
+		    "fixedRotation": true,
+		    "bodyType": "kinematic"
+			}
+		},
+		{
+			"name": "PlatformB",
+			"type": "RectActor",
+			"size": [130, 10],
+			"detectionSize": [129,12],
+			"pos": [-233, 40],
+			"color": "green",
+			"visible": true,
+			"layer": 5,
+			"sub_layer": 1,
+			"tags": [],
+			"script": "platformSprite.cup",
+			"detectionTags": ["platform"],
+			"body": {
+				"friction": 1,
+		    "fixedRotation": true,
+		    "bodyType": "kinematic"
+			}
+		},
+		{
+			"name": "PlatformC",
+			"type": "RectActor",
+			"size": [130, 10],
+			"detectionSize": [130,12],
+			"pos": [30, 40],
+			"color": "green",
+			"visible": true,
+			"layer": 5,
+			"sub_layer": 1,
+			"script": "platformSprite.cup",
+			"tags": [],
+			"detectionTags": ["platform"],
+			"body": {
+				"friction": 1,
+		    "fixedRotation": true,
+		    "bodyType": "kinematic"
+			}
+		}
+	],
+	"worldObjects": [{
+		"name": "BG",
+		"type": "",
+		"size": [1280,720],
+		"pos": [0,-50],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 6,
+		"appendTo": "scene_background",
+		"sub_layer": 0,
+		"scale": 1.02,
+		"fit": "FitSize"
+	},
+	{
+		"name": "BGClouds",
+		"type": "",
+		"size": [1280,720],
+		"pos": [0,-150],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 1,
+		"appendTo": "scene_background",
+		"sub_layer": 0,
+		"scale": 1.02
+	},
+	{
+		"name": "Sun",
+		"type": "",
+		"size": [1280,720],
+		"pos": [-230,-290],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 7,
+		"appendTo": "scene_background",
+		"sub_layer": 0,
+		"scale": 1
+	},
+	{
+		"name": "Clouds",
+		"type": "",
+		"size": [1280,720],
+		"pos": [0,-70],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 0,
+		"appendTo": "scene_background",
+		"sub_layer": 1,
+		"scale": 1,
+		"script": "clouds.cup"
+	},
+	{
+		"name": "Clouds",
+		"type": "",
+		"size": [1280,720],
+		"pos": [600,-70],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 0,
+		"appendTo": "scene_background",
+		"sub_layer": 1,
+		"scale": 1,
+		"script": "clouds.cup"
+	},
+	{
+		"name": "WaterBG",
+		"type": "",
+		"size": [1280,720],
+		"pos": [0,20],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 5,
+		"layer": 1,
+		"sub_layer": 0,
+		"scale": 0.9
+	},
+	{
+		"name": "WaterTwinkle",
+		"type": "",
+		"size": [1280,720],
+		"pos": [0,0],
+		"visible": true,
+		"atlas": "WaterTwinkleAtlas",
+		"layer": 1,
+		"sub_layer": 1,
+		"scale": 0.9,
+		"properties": {
+			"frame_speed": 6
+		}
+	},
+	{
+		"name": "BGHills",
+		"type": "",
+		"size": [1280,720],
+		"pos": [0,-160],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 4,
+		"layer": 2,
+		"sub_layer": 0,
+		"scale": 1
+	},
+	{
+		"name": "BGMain",
+		"type": "",
+		"size": [1448,850],
+		"pos": [0,-38],
+		"visible": true,
+		"bitmap": "BGMainBitmap",
+		"layer": 5,
+		"sub_layer": 0,
+		"scale": 0.96
+	},
+	{
+		"name": "FGBush",
+		"type": "",
+		"size": [1280,720],
+		"pos": [430,-80],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 3,
+		"layer": 6,
+		"sub_layer": 0,
+		"scale": 1.2
+	},
+	{
+		"name": "FGFlowers",
+		"type": "",
+		"size": [1280,720],
+		"pos": [-10,283],
+		"visible": true,
+		"atlas": "FlowerBGAtlas",
+		"base_frame": 2,
+		"layer": 7,
+		"sub_layer": 0,
+		"scale": 1
+	},
+	{
+		"name": "BossObject",
+		"type": "",
+		"pos": [0,0],
+		"size": [0,0],
+		"tags": ["boss"],
+		"layer": 5,
+		"sub_layer": 1
+	}
+	],
+	"resources": {
+		"bitmap": [
+			{
+				"name": "FlowerBGBitmap",
+				"src": "scenes/flower/SpriteAtlasTexture_Background-0.png"
+			},
+			{
+				"name": "BGWaterTwinkleBitmap",
+				"src": "scenes/flower/SpriteAtlasTexture_BGWaterTwinkle-0.png"
+			},
+			{
+				"name": "BGMainBitmap",
+				"src": "scenes/flower/flower_bg_main.png"
+			},
+			{
+				"name": "PlatformsBitmap",
+				"src": "scenes/flower/SpriteAtlasTexture_Platforms-0.png"
+			},
+			{
+				"automatize": {
+					"name": "FlowerBitmapPH1-%i",
+					"start": 0,
+					"end": 12,
+					"pad": 1,
+					"src": "scenes/flower/form1/SpriteAtlasTexture_Flower-#.png"
+				}
+			},
+			{
+				"automatize": {
+					"name": "FlowerBitmapPH2-%i",
+					"start": 0,
+					"end": 5,
+					"pad": 1,
+					"src": "scenes/flower/form2/SpriteAtlasTexture_Flower2-#.png"
+				}
+			},
+			{
+				"name": "AcornBitmap0",
+				"src": "scenes/flower/form1/SpriteAtlasTexture_Acorn-0.png"
+			},
+			{
+				"name": "BoomerangBitmap0",
+				"src": "scenes/flower/form1/SpriteAtlasTexture_Boomerang.png"
+			},
+			{
+				"name": "FlowerGattlingFXBitmap0",
+				"src": "scenes/flower/form2/SpriteAtlasTexture_GattlingFX-0.png"
+			},
+			{
+				"name": "FlowerMugshot",
+				"src": "scenes/flower/death_card_mugshot_flower.png"
+			},
+			{
+				"name": "FlowerMugshot2",
+				"src": "scenes/flower/death_card_mugshot_superflower.png"
+			}
+		],
+		"brush": [
+			{
+				"name": "FlowerBGAtlas",
+				"bitmaps": ["FlowerBGBitmap"],
+				"frames": "scenes/flower/SpriteAtlasTexture_Background.csv"
+			},
+			{
+				"name": "WaterTwinkleAtlas",
+				"bitmaps": ["BGWaterTwinkleBitmap"],
+				"frames": "scenes/flower/SpriteAtlasTexture_BGWaterTwinkle.csv"
+			},
+			{
+				"name": "PlatformsAtlas",
+				"bitmaps": ["PlatformsBitmap"],
+				"frames": "scenes/flower/SpriteAtlasTexture_Platforms.csv",
+				"anims": "scenes/flower/platforms.anims.json"
+			},
+			{
+				"name": "FlowerAtlasPH1",
+				"bitmaps": {
+					"name-prefix": "FlowerBitmapPH1-%i",
+					"start": 0,
+					"end": 12
+				},
+				"frames": "scenes/flower/form1/SpriteAtlasTexture_Flower.csv",
+				"anims": "scenes/flower/form1/flower1.anims.json"
+			},
+			{
+				"name": "FlowerAtlasPH2",
+				"bitmaps": {
+					"name-prefix": "FlowerBitmapPH2-%i",
+					"start": 0,
+					"end": 5
+				},
+				"frames": "scenes/flower/form2/SpriteAtlasTexture_Flower2.csv",
+				"anims": "scenes/flower/form2/flower2.anims.json"
+			},
+			{
+				"name": "AcornAtlas",
+				"bitmaps": ["AcornBitmap0"],
+				"frames": "scenes/flower/form1/SpriteAtlasTexture_Acorn.csv",
+				"anims": "scenes/flower/form1/acorn.anims.json"
+			},
+			{
+				"name": "BoomerangAtlas",
+				"bitmaps": ["BoomerangBitmap0"],
+				"frames": "scenes/flower/form1/SpriteAtlasTexture_Boomerang.csv",
+				"anims": "scenes/flower/form1/boomerang.anims.json"
+			},
+			{
+				"name": "FlowerGattlingFXAtlas",
+				"bitmaps": ["FlowerGattlingFXBitmap0"],
+				"frames": "scenes/flower/form2/SpriteAtlasTexture_GattlingFX.csv",
+				"anims": "scenes/flower/form2/gattlingfx.anims.json"
+			}
+		],
+		"sound": [
+			{
+				"name": "Mus_Flower",
+				"src": "scenes/flower/MUS_Flower.ogg",
+				"category": "music",
+				"options": {
+					"equalizer": true,
+					"limiter": true,
+					"reverb": true
+				}
+			},
+			{
+				"name": "FlowerIntroSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_intro_yell.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "FlowerLaserStartSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_top_laser_attack_start.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "FlowerLaserLoopSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_top_laser_attack_hold_loop.ogg",
+				"category": "sfx",
+				"loop": true
+			},
+			{
+				"name": "FlowerLaserEndSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_top_laser_attack_end.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "FlowerHandsStartSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_pot_hands_start.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "FlowerHandsOpenSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_pot_hands_open.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "FlowerHandsEndSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_pot_hands_end.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "SeedPoofSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_bullet_seed_poof.ogg",
+				"category": "sfx",
+				"reuse": true
+			},
+			{
+				"name": "BoomerangLoopSfx",
+				"src": "scenes/flower/form1/AudioClip/sfx_flower_boomerang_projectile.ogg",
+				"category": "sfx",
+				"reuse": true,
+				"loop": true
+			},
+			{
+				"name": "FlowerGattlingStartSfx",
+				"src": "scenes/flower/form2/AudioClip/sfx_flower_gattling_start.ogg",
+				"category": "sfx"
+			},
+			{
+				"name": "FlowerGattlingLoopSfx",
+				"src": "scenes/flower/form2/AudioClip/sfx_flower_gattling_loop.ogg",
+				"category": "sfx",
+				"loop": true
+			},
+			{
+				"name": "FlowerGattlingEndSfx",
+				"src": "scenes/flower/form2/AudioClip/sfx_flower_gattling_end.ogg",
+				"category": "sfx"
+			}
+		]
+	}
+}

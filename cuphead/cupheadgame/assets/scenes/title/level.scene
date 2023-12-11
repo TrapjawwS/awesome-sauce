@@ -1,0 +1,449 @@
+
+b5.LoadScene = function(world, scene, data, game) {
+	//scene is the main scene where resources and actors will be added
+	//game is equivalent to b5.Game where there's things like the loading screen, scene loader, player, configs and	more.
+	//you should add local variables on data object, for them to be removed when another scene is being loaded, for global variables add them to game or write it to a file.
+  
+  //Update presence	on Discord
+  game.DiscordSession.updateActivity({
+  	details: 'Title Screen',
+  	state: ' '
+  });
+  
+  //Disable pausing
+  game.Flags.pausingEnabled = false;
+  game.Flags.inWorldmap = false;
+  game.Flags.inLevel = false;
+  game.Flags.inMainGame = false;
+  game.GUI.disableButtons();
+  
+  //Touchscreen
+  world.touchable = true;
+  
+  var logo = new b5.Actor();
+	logo.w = 1280;
+	logo.h = 720;
+	logo.atlas = scene.findResource('LogoSeqAtlas','brush');
+	logo.name = "TitleLogo";
+	world.addActor(logo);
+	logo._layer = 3;
+	logo.fit = b5.Actor.FitX;
+	
+  /*
+  // 3D MODEL
+	//Logo background
+	var logo = new b5.RectActor();
+	logo.w = 2000;
+	logo.h = 1600;
+	logo.fill_style = "#ff3600";
+	logo.name = "TitleLogo";
+	world.addActor(logo);
+	logo._layer = 3;
+	
+	//Logo sprites (DREW)
+	//Class for creating them fast
+	const charSprite = function(frame,x,y,name) {
+    var c = new b5.Actor;
+    c.atlas = scene.findResource('LogoAtlas', 'brush');
+    c.x=x, c.y=y;
+	  c.current_frame = frame;
+	  c.center_atlas = true;
+	  c.ignore_atlas_size = true;
+	  c.setSize(128,128);
+	  c.name = name;
+	  c.layer = 1;
+	  return c;
+  };
+  
+  //Set offscreen to animate in
+  const D = charSprite(0,-710,-64,'D'),
+  R = charSprite(1,64,-430,'R'),
+  E = charSprite(2,-64,430,'E'),
+  W = charSprite(3,710,64,'W'),
+  studio = new b5.Actor();
+  
+  D.visible = R.visible = E.visible = W.visible = false;
+  
+ 	studio.atlas = scene.findResource('LogoAtlas','brush');
+  studio.current_frame = 4;
+  studio.name = "studio";
+ 	studio.ignore_atlas_size = true;
+  studio.setSize(230, 55);
+  studio.visible = false;
+  
+  logo.addActor(studio);
+  logo.addActor(D);
+  logo.addActor(R);
+  logo.addActor(E);
+  logo.addActor(W);
+  
+  //Add motion blur filter
+  var blurF = scene.findResource('MotionBlurShader', 'shader');
+  
+  //Blur data values
+  data.blurX = 0.8;
+  data.blurY = 0.85;
+  
+  //Animation variables
+  data.time = .9;
+  data.delay = .25;
+  
+  blurF.onload = function() {
+	  D.addFilter(this.filter);
+	  R.addFilter(this.filter);
+ 	  E.addFilter(this.filter);
+	  W.addFilter(this.filter);
+  };
+  
+  //Because filter shares same uniform, change it every time an actor is going to be drawn
+  D.onPreDraw = function() {
+  	blurF.uVelocity = [data.blurX, 0]; //Horizontal
+  };
+  R.onPreDraw = function() {
+  	blurF.uVelocity = [0, data.blurY]; //Vertical
+  };
+  E.onPreDraw = function() {
+  	blurF.uVelocity = [0, data.blurY]; //Vertical
+  };
+  W.onPreDraw = function() {
+  	blurF.uVelocity = [data.blurX, 0]; //Horizontal
+  };
+  
+  //3D Model!
+  scene.findResource('Logo3DModel', 'raw').onload = function(gltf) {
+		var logo3d = new b5.Actor3D( gltf ? PIXI3D.Model.from(gltf) : null);
+		logo3d.w = scene.w;
+		logo3d.h = scene.h
+		logo3d.scale = .978;
+		if(logo3d.model) {
+			logo3d.model.z = -53.4;
+			logo3d.model.x = -.3;
+		}
+		logo3d.name = "Logo3D";
+		logo.addActor(logo3d);
+		logo3d.visible=false;
+  };*/
+  
+	//Title background
+	var titlebg = new	b5.Actor();
+	titlebg.w = 1280;
+	titlebg.h = 720;
+	titlebg.bitmap = scene.findResource('TitleBgBitmap', 'bitmap');
+	titlebg.fit = b5.Actor.FitSize;
+	world.addActor(titlebg);
+	titlebg.name = "TitleBackground";
+	titlebg._layer = 0;
+	
+	//Title animatic
+	
+	var chips = new b5.Actor();
+	chips.atlas = scene.findResource('TitleAtlas', 'brush');
+	chips.setPosition(0,305);
+	world.addActor(chips);
+	chips._layer = 2;
+	chips.current_frame = game.cfg.Game.dlc_title ? 42 : 43;
+	
+	var chalice = new b5.Actor();
+	chalice.atlas = scene.findResource('TitleAtlas', 'brush');
+	world.addActor(chalice);
+	chalice._layer = 1;
+	chalice.playAnim('chalice',true);
+	
+	var cuphead = new b5.Actor();
+	cuphead.atlas = scene.findResource('TitleAtlas', 'brush');
+	world.addActor(cuphead);
+	cuphead._layer = 1;
+	cuphead.playAnim('cuphead',true);
+	
+  var mugman = new b5.Actor();
+	mugman.atlas = scene.findResource('TitleAtlas', 'brush');
+	world.addActor(mugman);
+	mugman._layer = 1;
+	mugman.playAnim('mugman',true);
+	
+	if(game.cfg.Game.dlc_title) {
+		cuphead.setPosition(-325,10);
+		mugman.setPosition(310,10);
+		chalice.setPosition(-30,50);
+	}
+	else {
+		chalice._av = false;
+		
+		cuphead.setPosition(-232, 14);
+		mugman.setPosition(205,20);
+		
+		cuphead._scale = mugman._scale = 0.98;
+	}
+	
+	if(game.Flags.spookyMode) {
+		cuphead.frame_speed =
+		mugman.frame_speed = 
+		chalice.frame_speed = 0;
+	}
+	
+
+	//Start Label
+	var labelstart = new b5.LabelActor();
+	labelstart.font = scene_GUI.findResource('CupheadVogueExtraBoldFont', 'brush');
+	labelstart.y = 330;
+	labelstart.name = "LabelStart";
+	labelstart.stroke_filled = true;
+	labelstart.stroke_thickness = 4;
+	labelstart.letter_spacing = 15;
+	labelstart.fill_style = "#f6d964";
+	labelstart.stroke_style = "black";
+	world.addActor(labelstart);
+	labelstart._layer = 2;
+	labelstart.text = game.Texts.texts.title_press_any_button;
+	labelstart.timer = 0;
+	
+};
+b5.onLoadingScreenOut = function(world, scene, data, game) {
+	//Called when the loading screen is fading out, here you can start animating your actors and do whatever you want!
+	
+	//Play logo
+	var logo_stingSfx = scene.findResource('MDHR_Logo_Sting', 'sound').play();
+	
+	var logo = world.findActor("TitleLogo");
+	
+	var titlebg = world.findActor('TitleBackground');
+  
+  var logoModel = logo.findActor('Logo3D');
+  
+  var intm = scene.findResource('intm','sound');
+  //Tween sprites
+	b5.Utils.RunafterTime(1, function() {
+		//Animate zoom out
+  /*	logo._depth=0.8;
+	  logo.TweenTo('_depth',1.3,8,b5.Ease.quadout,!1);
+    
+		var D = logo.findActor('D');
+		D.TweenTo('_x',-64,data.time,b5.Ease.sinout);
+    var R = logo.findActor('R');
+    R.TweenTo('_y',-64,data.time-data.delay,b5.Ease.sinout,!0, data.delay);
+    var E = logo.findActor('E');
+    E.TweenTo('_y',64,data.time-data.delay,b5.Ease.sinout,!0, data.delay);
+    var W = logo.findActor('W');
+    W.TweenTo('_x',64,data.time,b5.Ease.sinout);
+    
+    D.visible = R.visible = E.visible = W.visible = true;
+    
+    //Decrease blur strength
+    b5.Tweener(data,'blurX', null, data.blurX, 0, data.time, b5.Ease.sinout)
+      .start();
+    
+    var blYTw = b5.Tweener(data,'blurY', null, data.blurY, 0, data.time - data.delay, b5.Ease.sinout, data.delay);
+    blYTw.start();
+    
+    //Switch to 3D model when tween finished
+    blYTw.onfinish = function() {
+    	if(logoModel.model) {
+    		logo.setTimeout(k => {
+    			logo.findActor('D').destroy();
+    			logo.findActor('R').destroy();
+  			 	logo.findActor('E').destroy();
+    			logo.findActor('W').destroy();
+    		},app.dt*3);
+    		logoModel.visible = true;
+    	}
+    	else logo.findActor('studio').visible = true;
+    	logo.findActor('studio').TweenTo('_y',-170,2,b5.Ease.circout,true,.5)
+    
+    	//Play animations
+ 	  	app.setTimeout(()=>{ 
+	  		logoModel.model && logoModel.model.animations[0].play();
+	  	},.3);*/
+	  	logo.frame_speed = 30;
+	  	logo.frames_repeat = false;
+	  	
+	  	var hsh = scene.findResource('bsh','shader');
+	  	if(game.Flags.spookyMode) {
+	  		world.addFilter(hsh.filter);
+	  		data.shaderVars = {
+	  			amp: [0,0],
+	  			freq: [5.1,12]
+	  		}
+	  		world.onPreDraw = function() {
+	  			//Update shader
+	  			hsh.amplitude = data.shaderVars.amp;
+	  			hsh.frequency = data.shaderVars.freq;
+	  		}
+	  	}
+	  	
+	  	//Wait some time and fade
+	  	app.setTimeout(()=>{
+	  		logo.TweenTo('opacity',0,0.5,b5.Ease.linear);
+	  		//Play music
+				var mus_ddv = scene.findResource('MUS_DontDealVocal', 'sound');
+				
+				if(game.Flags.spookyMode) {
+					intm.play();
+					const t1 = new b5.Tweener(sceneMain.data.shaderVars,'amp',0,0,0.4,12,0,0,world),
+					t2 = new b5.Tweener(sceneMain.data.shaderVars,'amp',0,0.4,0,12,0,0,world),
+					t3 = new b5.Tweener(sceneMain.data.shaderVars,'amp',1,0,0.4,12,0,0,world),
+					t4 = new b5.Tweener(sceneMain.data.shaderVars,'amp',1,0.4,0,12,0,0,world);
+					
+					t4.onfinish = t1.start; 
+					t1.onfinish = t2.start; 
+					t2.onfinish = t3.start; 
+					t3.onfinish = t4.start;
+					t1.start();
+				}
+				else mus_ddv.play();
+				
+				//Play instrumental when it's over
+				mus_ddv.onComplete = function() {
+					!game.cfg.Game.dlc_title && app.setTimeout(function() {
+						var mus_ddd = scene.findResource('MUS_DontDealWithDevil', 'sound');
+						mus_ddd && mus_ddd.play();
+					},1.5);
+				};
+				
+				app.setTimeout(()=>{
+	  		 	titlebg.touchable = true;
+				},.5);
+	  	},5.1);
+  //  };
+	});
+	
+	//Animate text 
+	var labelstart = world.findActor('LabelStart');
+	labelstart.onTick = function() {
+		if(this.timer > 43) {
+			this.timer = 0;
+			this.visible = !this.visible;
+		}
+		labelstart.timer += game.speed;
+	}
+	
+	//Load MainMenu on beginTouch
+	titlebg.onBeginTouch = function() {
+		scene.findResource('WorldmapDifficultySelectAppear', 'sound').play();
+		this.touchable = false;
+		game.LoadScene('main_menu', false, false, {show_anim: 'close', hide_anim: 'fade', hide_speed: 0.5});
+	}
+	//Listen also to input
+	titlebg.onTick = function() {
+		for(var i in game.Input.player1) Math.round(game.Input.player1[i]) && this.touchable && this.onBeginTouch();
+	}
+	
+};
+b5.addSceneResources = function(scene, data, game) {
+	//Resources that will be added to scene, this will be called before LoadScene
+  
+  
+  //Load 3D Model and shaders!
+  
+  scene.addResource( new b5.Shader('MotionBlurShader', data.resourcePath + 'shader/MotionBlur.ish',true), 'shader');
+  /*
+  var logoBitmap = new b5.Bitmap('LogoBitmap', data.resourcePath + 'model/Image_1.png');
+  scene.addResource(logoBitmap,'bitmap');
+  
+  var logoStudio = new b5.Bitmap('LogoStudio', data.resourcePath + 'model/studio.png');
+  scene.addResource(logoStudio,'bitmap');
+  
+  var atlas = new b5.ImageAtlas('LogoAtlas', [logoBitmap, logoStudio]);
+  atlas.parseFrames(b5.File.readSync(data.resourcePath + 'model/Image_1.csv'));
+  scene.addResource( atlas, 'brush');
+  
+  var model = new b5.Model('Logo3DModel', data.resourcePath + 'model/LOGO.gltf');
+  scene.addResource(model, 'raw');*/
+  
+  game.parseResources({
+  	bitmap:[{
+  		automatize: {
+  			name: 'LogoSeqBitmap%i',
+  			start: 0,
+  			end: 204,
+  			pad: 4,
+  			src: 'scenes/title/logo/logo_####.jpg'
+  		},
+  		resolution: 1
+  	}],
+  	brush: [{
+  		name: 'LogoSeqAtlas',
+  		bitmaps: {
+  			start: 0,
+  			end: 204,
+  			"name-prefix": "LogoSeqBitmap%i"
+  		},
+  		frames: 'scenes/title/logo/logo.csv'
+  	}]
+  }, scene);
+  
+  //Title atlas
+  var title_atlas = new b5.ImageAtlas('TitleAtlas', []);
+  title_atlas.parseFrames(b5.File.readSync(data.resourcePath + 'SpriteAtlasTexture_TitlescreenDLC.csv'));
+  title_atlas.parseAnims(b5.File.readSync(data.resourcePath + 'titlescreenDLC.anims.json'));
+
+  //Load title bitmaps
+  for(var i = 0; i < 3; i++) {
+  	var bitmap = new b5.Bitmap('TitleBitmap'+i, data.resourcePath + 'SpriteAtlasTexture_TitlescreenDLC-' + i + '.png', false);
+  	scene.addResource(bitmap, 'bitmap');
+  	//Add to atlas 
+  	title_atlas.bitmaps.push(bitmap);
+  }
+  
+  scene.addResource(title_atlas, 'brush');
+  
+  //Load title background
+  var title_bg = new b5.Bitmap('TitleBgBitmap', data.resourcePath + 'title_screen_background.png', false);
+  scene.addResource(title_bg, 'bitmap');
+
+  //Load sounds
+  //Logo sting
+  var logo_sting = new b5.Sound('MDHR_Logo_Sting', data.resourcePath + 'MDHR_LOGO_STING.ogg', false, false, true);
+  logo_sting.output_gain = game.Sfx.volume;
+  logo_sting.onDestroy = game.Sfx.remove;
+  scene.addResource(logo_sting, 'sound');
+  game.Sfx.add(logo_sting);
+  
+  //Secret ;)
+  var chance = b5.Maths.randomChance(1/2013);
+  
+  //Dont Deal With Devil (vocal) and dlc
+  var mus_ddv = new b5.Sound('MUS_DontDealVocal', data.resourcePath + (!chance ? (game.cfg.Game.dlc_title ? 'mus_dlc_title.ogg' : 'MUS_Intro_DontDealWithDevil_Vocal.ogg') : 'bgm_title_screen.ogg'), false, false, true);
+  mus_ddv.output_gain = game.Music.volume;
+  mus_ddv.onDestroy = game.Music.remove;
+  mus_ddv.loop = game.cfg.Game.dlc_title;
+  scene.addResource(mus_ddv, 'sound', true);
+  game.Music.add(mus_ddv);
+  
+  //Dont Deal With Devil (instrumental)
+  var mus_ddd = new b5.Sound('MUS_DontDealWithDevil', data.resourcePath + 'MUS_Intro_DontDealWithDevil.ogg', false, false, false);
+  mus_ddd.loop = true;
+  mus_ddd.output_gain = game.Music.volume;
+  mus_ddd.onDestroy = game.Music.remove;
+  scene.addResource(mus_ddd, 'sound', true);
+  game.Music.add(mus_ddd);
+  
+  var intm = new b5.Sound('intm', data.resourcePath + 'NOT.RIGHT.NOT.RIGHT.NOT.RIGHT');
+  intm.loop = true;
+  intm.output_gain = game.Music.volume;
+  intm.onDestroy = game.Music.remove;
+  scene.addResource(intm, 'sound', true);
+  game.Music.add(intm);
+  
+  //WorldmapDifficultySelectAppear
+  var wmdsa = new b5.Sound('WorldmapDifficultySelectAppear', b5.Paths.assets + 'sfx_WorldMap_LevelSelect_DiffucultySettings_Appear.ogg', false, false, true);
+  wmdsa.output_gain = game.Sfx.volume;
+  wmdsa.onDestroy = game.Sfx.remove;
+  wmdsa.global_stream = true;
+  scene.addResource(wmdsa, 'sound');
+  game.Sfx.add(wmdsa);
+  
+  //..
+  var sh = new b5.Shader('bsh', data.resourcePath+'shader/hdma.ish', true);
+  scene.addResource(sh, 'shader');
+};
+b5.onSceneUnload = function(world, scene, data, game, clearResources) {
+    //Called when app is about to remove the scene, if clearResources is true, that means the app will clean the resources of the scene
+    //You can also remove created objects in b5.Game if they were created and used on the scene.
+ //   scene.findActor('Logo3D',true).destroy();
+   world.removeFilter();
+};
+
+// DEPRECATED
+b5.UpdateScene = function(world, scene, data, game) {
+	//For updating actors and behaviors on your scene every frame
+};
