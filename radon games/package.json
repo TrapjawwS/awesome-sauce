@@ -1,0 +1,36 @@
+{
+  "name": "radon-games",
+  "description": "An open-source unblocked games website built with simplicity in mind.",
+  "version": "4.0.0",
+  "author": "Cohen Erickson <cohen@radon.games>",
+  "type": "module",
+  "license": "GNU v2",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "pretty": "prettier --write .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@titaniumnetwork-dev/ultraviolet": "^2.0.0",
+    "framer-motion": "^10.16.4",
+    "million": "^2.6.0",
+    "preact": "^10.17.1",
+    "preact-router": "^4.1.2",
+    "react": "npm:@preact/compat@^17.1.2",
+    "react-dom": "npm:@preact/compat@^17.1.2",
+    "react-icons": "^4.11.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.5.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.30",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.4",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.5",
+    "vite-plugin-static-copy": "^0.17.0"
+  }
+}
