@@ -1,0 +1,37 @@
+game object keys : values {
+
+    job : str
+    money : int
+
+    // the following have corresponding ordering
+    party : array[str]
+    health : array[int]
+    ailment : array[int]
+    //
+
+    day : int
+    month : int
+    year : int
+
+    // supplies
+    oxen : int
+    food : int
+    sets : int  // this is clothing
+    ammunition : int
+    wheels : int
+    tongues : int
+    axles : int
+
+    weather : str
+    water : str // water quality (see common.js)
+    location : str // current location
+    visited : array[str] // used for map drawing
+    next : str
+    miles : int
+    toGo : int
+
+    pace : str
+    rations : str
+
+
+}

@@ -1,0 +1,18 @@
+Job type:
+Banker = 1x
+Carpenter = 2x
+Farmer = 3x
+
+Health of party:
+good = 500 x people living
+fair = 400 x people living
+poor = 300 x people living
+very poor = 200 x people living 
+
+Resources:
+wagon = 50
+ox = 4
+spare wagon part = set of clothing = 2
+ammunition = 1
+food (each 25 lbs) = 1
+cash (each $5) = 1

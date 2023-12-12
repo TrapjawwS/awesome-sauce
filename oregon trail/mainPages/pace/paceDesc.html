@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../oregontrail.css">
+</head>
+<body>
+	<div class="title textAlignCenter">
+		<img src="../../images/header.png">
+	</div>
+
+	<div class="normalFont alignCenter">
+		<p id="paragraphHead" class="textAlignCenter"></p>
+		<p id="learnTrailDesc">
+			Steady - You travel 8 hours a day. You take many<br>
+			rests and rarely get very tired.<br><br>
+
+			Strenuous - You travel 12 hours a day, starting<br>
+			at sunrise and stopping at sunset. You stop <br>
+			to rest only when you must. You finish each<br>
+			day very tired.<br><br>
+
+			Grueling - You travel 16 hours a day, starting <br>
+			before dawn and going until dark. You rarely<br>
+			rest and sleep.  You finish each day exhausted<br>
+			and your health suffers.<br><br>
+		</p>
+	</div>
+
+	<div class="textAlignCenter">
+		<br>
+		<img src="../../images/header.png">
+	</div>
+		<p class="normalFont textAlignCenter">
+			Press SPACE BAR to continue 
+		</p>
+
+	<script>
+		document.body.onkeyup = function(e){
+    			if(e.keyCode == 32){
+				location.replace("pace.html");
+    			}
+		}
+	</script>
+</body>
+</html>

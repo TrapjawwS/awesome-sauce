@@ -1,0 +1,42 @@
+<!-- Name: TeamHaircut
+	 File: managementOptions.html
+	 Date Created: 5/25/20
+	 Description: Management Options
+         Changes: refactored file names
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="https://swe.umbc.edu/~fritzk1/OregonTrail/oregontrail.css">
+</head>
+
+<body>
+
+	<div class="titleNormal normalFont textAlignCenter">
+		<h2>
+			The Oregon Trail<br><br>
+			Management Options
+		</h2>
+	</div>
+
+	<div class="options normalFont">
+		You may: <br>
+		<p class="optionsList">
+			1. See the current Top Ten list<br>
+			2. See the original Top Ten list<br>
+			3. Erase the current Top Ten list<br>
+			4. Erase the tombstone messages<br>
+			5. Return to the main menu<br><br>
+			What is your choice?
+			<input class="optionInput normalFont" id="managementOptionsChoice" type="text"
+			name="quantity" min="1" max="6" onkeypress="checkEnteredValue(event)" onblur="this.focus()" autofocus>
+		</p>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://swe.umbc.edu/~fritzk1/OregonTrail/changeSound.js" type="text/javascript"></script>
+	<script src="managementOptions.js" type="text/javascript"></script>
+</body>
+</html>

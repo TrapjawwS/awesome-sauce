@@ -1,0 +1,26 @@
+* Developer Workflow to add new feature "XXX-0000" *
+
+//As Repo Owner
+	//create new branch XXX-0000
+
+//As developer
+	git checkout -b XXX-0000
+	//make edits
+	git add .
+	git commit -m "XXX-0000"
+	git push -u origin XXX-0000
+	//create pull request XXX-0000
+
+//As Repo Owner
+	//Review pull request XXX-0000
+	//Accept or issue rework
+		//merge XXX-0000 changes to master
+	//Delete XXX-0000 branch
+
+//As developer
+	//rework if required, else
+	git checkout master
+	git pull origin master
+	git pull origin master
+	git branch -D XXX-0000
+

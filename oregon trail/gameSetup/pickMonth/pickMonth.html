@@ -1,0 +1,55 @@
+<!-- Name: TeamHaircut
+	 File: pickMonth.html
+	 Date Created: 5/28/20
+	 Description: Decide which month to leave Independence
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../oregontrail.css">
+</head>
+
+<body>
+	<div class="textAlignCenter">
+		<img src="../../images/header.png">
+		<br>
+	</div>
+
+	<div id="mainPage" class="normalFont alignCenter">
+		<br>It is 1848.  Your jumping off place for Oregon is Independence, Missouri.  You must decide which month to leave Independence.<br>
+		<p class="optionsList">
+			1. March <br>
+			2. April <br>
+			3. May <br>
+			4. June <br>
+			5. July <br>
+			6. Ask for Advice<br>
+		</p>
+			What is your choice?
+			<input class="optionInput normalFont textAlignCenter" id="optionsChoice" type="text" name="quantity" min="1" max="6" onblur="this.focus()" autofocus>
+	</div>
+
+	<div id="explanationPage" style="display: none"class="normalFont alignCenter">
+		<p>
+			You attend a public meeting held for "folks with the California - Oregon fever."  You're told:<br><br>
+		</p>
+		<p>
+			If you leave too early, there won't be any grass for your oxen to eat.  If you leave too late, you may not get to Oregon before winter comes.  If you leave at just the right time, there will be green grass and the weather will still be cool.
+		</p><br>
+		<p class="normalFont textAlignCenter">
+			Press <button class="spaceButton" id="barButton" >SPACE BAR</button> to continue 
+		</p>
+	</div>
+
+	<div class="textAlignCenter">
+		<br>
+		<img src="../../images/header.png">
+	</div>	
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://swe.umbc.edu/~fritzk1/OregonTrail/changeSound.js" type="text/javascript"></script>
+	<script src="pickMonth.js" type="text/javascript"></script>
+</body>
+</html>
