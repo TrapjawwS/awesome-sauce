@@ -1,0 +1,34 @@
+body {
+  background-image: url("https://images.pond5.com/purple-night-sky-animated-stars-footage-089542279_prevstill.jpeg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+div {
+  align-items: center;
+  text-align: center;
+  border-radius: 25px;
+  height: 300px;
+  width: 1000px;
+  background: linear-gradient(to bottom, #000000 0%, #020094 100%);
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+span {
+    color: yellow;
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
+    font-size: 40pt;
+    font-weight: bold;
+    text-align: right;
+    vertical-align: bottom;
+    font-family: monospace;
+}

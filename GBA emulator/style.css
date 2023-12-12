@@ -1,0 +1,16 @@
+div {
+  align-items: center;
+  text-align: center;
+  border-radius: 25px;
+  height: 300px;
+  width: 1000px;
+  background: linear-gradient(to bottom, #000000 0%, #020094 100%);
+}
+
+body {
+  background-image: url("https://www.bridalmakeup.com.au/wp-content/uploads/2017/09/bg-purple-pink-gradient.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
