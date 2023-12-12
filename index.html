@@ -3,6 +3,42 @@
   <html>
     <head>
       <script> src= "/worker.js"</script>
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+      .alert {
+        padding: 20px;
+        background-color: #f44336;
+        color: white;
+      }
+
+      .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .closebtn:hover {
+        color: black;
+      }
+      </style>
+      </head>
+      <body>
+      <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        <strong>NOTICE!</strong> MANY EMULATED GAMES ARE BROKEN I HAVE NO IDEA HOW TO FIX IT SORRY.
+      </div>
+
+      </body>
+      </html>
+
       <title> Secret Stuff </title>
       <meta charset="UTF-8">
       <style>
