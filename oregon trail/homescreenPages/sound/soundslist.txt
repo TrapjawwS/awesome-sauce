@@ -1,3 +1,0 @@
-win stat
-die (tombstone)
-locations (?) -> Independence, Kansas River crossing, possibly all locations
