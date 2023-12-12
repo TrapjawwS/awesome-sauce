@@ -105,7 +105,7 @@ function fates(roll, rivOrTrail) {
       $("#randomEventMessage").text(caravan.party[charIndex].name + " went to get the milk.");
       caravan.party[charIndex].health -= 50;
     } else if (roll<=18 && caravan.food > 0){
-      $("#randomEventMessage").text("Everyone shunned " + caravan.party[charIndex].name+" after dropping a bushel of food!");
+      $("#randomEventMessage").text("Everyone munched on " + caravan.party[charIndex].name);
       caravan.food -= 50;
     } else if (roll<=21){
       $("#randomEventMessage").text("There was a snake in " +  caravan.party[charIndex].name + "'s boot. " + caravan.party[charIndex].name + " contracted a disease.");
