@@ -97,7 +97,7 @@ function fates(roll, rivOrTrail) {
       if (caravan.party[charIndex].diseases > 0) {
         more = "nother";
       }
-      var diseaseNames = ["dysentery", "cholera", "typhoid", "measles", "diphtheria", "scurvy", "ligma 💀💀"];
+      var diseaseNames = ["dysentery", "cholera", "typhoid", "measles", "diphtheria", "scurvy", "ligma"];
       var diseaseIndex = rollNumber(0, diseaseNames.length);
       $("#randomEventMessage").text(caravan.party[charIndex].name+" contracted " + diseaseNames[diseaseIndex] + "!");
       caravan.party[charIndex].diseases += 1;
