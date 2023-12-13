@@ -1,0 +1,225 @@
+{
+  "@@locale": "en",
+  "play": "Play",
+  "@play": {
+    "description": "Text displayed on the landing page play button"
+  },
+  "howToPlay": "How to Play",
+  "@howToPlay": {
+    "description": "Text displayed on the landing page how to play button"
+  },
+  "tipsForFlips": "Tips for flips",
+  "@tipsForFlips": {
+    "description": "Text displayed on the landing page how to play button"
+  },
+  "launchControls": "Launch Controls",
+  "@launchControls": {
+    "description": "Text displayed on the how to play dialog with the launch controls"
+  },
+  "flipperControls": "Flipper Controls",
+  "@flipperControls": {
+    "description": "Text displayed on the how to play dialog with the flipper controls"
+  },
+  "tapAndHoldRocket": "Tap Rocket",
+  "@tapAndHoldRocket": {
+    "description": "Text displayed on the how to launch on mobile"
+  },
+  "to": "to",
+  "@to": {
+    "description": "Text displayed for the word to"
+  },
+  "launch": "LAUNCH",
+  "@launch": {
+    "description": "Text displayed for the word launch"
+  },
+  "tapLeftRightScreen": "Tap left/right screen",
+  "@tapLeftRightScreen": {
+    "description": "Text displayed on the how to flip on mobile"
+  },
+  "flip": "FLIP",
+  "@flip": {
+    "description": "Text displayed for the word FLIP"
+  },
+  "start": "Start",
+  "@start": {
+    "description": "Text displayed on the character selection page start button"
+  },
+  "select": "Select",
+  "@select": {
+    "description": "Text displayed on the character selection dialog - select button"
+  },
+  "space": "Space",
+  "@space": {
+    "description": "Text displayed on space control button"
+  },
+  "characterSelectionTitle": "Select a Character",
+  "@characterSelectionTitle": {
+    "description": "Title text displayed on the character selection dialog"
+  },
+  "characterSelectionSubtitle": "There’s no wrong choice!",
+  "@characterSelectionSubtitle": {
+    "description": "Subtitle text displayed on the character selection dialog"
+  },
+  "gameOver": "Game Over",
+  "@gameOver": {
+    "description": "Text displayed on the ending dialog when game finishes"
+  },
+  "rounds": "Ball Ct:",
+  "@rounds": {
+    "description": "Text displayed on the scoreboard widget to indicate rounds left"
+  },
+  "topPlayers": "Top Players",
+  "@topPlayers": {
+    "description": "Title text displayed on leaderboard screen"
+  },
+  "rank": "rank",
+  "@rank": {
+    "description": "Label text displayed above player's rank"
+  },
+  "name": "name",
+  "@name": {
+    "description": "Label text displayed above player's initials"
+  },
+  "score": "score",
+  "@score": {
+    "description": "Label text displayed above player's score"
+  },
+  "enterInitials": "Enter your initials using the",
+  "@enterInitials": {
+    "description": "Informational text displayed on initials input screen"
+  },
+  "arrows": "arrows",
+  "@arrows": {
+    "description": "Text displayed on initials input screen indicating arrow keys"
+  },
+  "andPress": "and press",
+  "@andPress": {
+    "description": "Connecting text displayed on initials input screen informational text span"
+  },
+  "enterReturn": "enter/return",
+  "@enterReturn": {
+    "description": "Text displayed on initials input screen indicating return key"
+  },
+  "toSubmit": "to submit",
+  "@toSubmit": {
+    "description": "Ending text displayed on initials input screen informational text span"
+  },
+  "linkBoxTitle": "Resources",
+  "@linkBoxTitle": {
+    "description": "Text shown on the link box title section."
+  },
+  "linkBoxMadeWithText": "Made with ",
+  "@linkBoxMadeWithText": {
+    "description": "Text shown on the link box which mentions technologies used to build the app."
+  },
+  "linkBoxFlutterLinkText": "Flutter",
+  "@linkBoxFlutterLinkText": {
+    "description": "Text on the link shown on the link box which navigates to the Flutter page"
+  },
+  "linkBoxFirebaseLinkText": "Firebase",
+  "@linkBoxFirebaseLinkText": {
+    "description": "Text on the link shown on the link box which navigates to the Firebase page"
+  },
+  "linkBoxOpenSourceCode": "Open Source Code",
+  "@linkBoxOpenSourceCode": {
+    "description": "Text shown on the link box which redirects to github project"
+  },
+  "linkBoxGoogleIOText": "Google I/O",
+  "@linkBoxGoogleIOText": {
+    "description": "Text shown on the link box which mentions Google I/O"
+  },
+  "linkBoxFlutterGames": "Flutter Games",
+  "@linkBoxFlutterGames": {
+    "description": "Text shown on the link box which redirects to flutter games article"
+  },
+  "linkBoxHowItsMade": "How it’s made",
+  "@linkBoxHowItsMade": {
+    "description": "Text shown on the link box which redirects to Very Good Blog article"
+  },
+  "linkBoxTermsOfService": "Terms of Service",
+  "@linkBoxTermsOfService": {
+    "description": "Text shown on the link box which redirect to terms of service"
+  },
+  "linkBoxPrivacyPolicy": "Privacy Policy",
+  "@linkBoxPrivacyPolicy": {
+    "description": "Text shown on the link box which redirect to privacy policy"
+  },
+  "loading": "Loading",
+  "@loading": {
+    "description": "Text shown to indicate loading times"
+  },
+  "replay": "Replay",
+  "@replay": {
+    "description": "Text displayed on the share page for replay button"
+  },
+  "ioPinball": "I/O Pinball",
+  "@ioPinball": {
+    "description": "I/O Pinball - Name of the game"
+  },
+  "shareYourScore": "Share your score",
+  "@shareYourScore": {
+    "description": "Text shown on title of info screen"
+  },
+  "andChallengeYourFriends": "AND CHALLENGE YOUR FRIENDS",
+  "@challengeYourFriends": {
+    "description": "Text shown on title of info screen"
+  },
+  "share": "SHARE",
+  "@share": {
+    "description": "Text for share link on info screen."
+  },
+  "gotoIO": "GO TO I/O",
+  "@gotoIO": {
+    "description": "Text for going to I/O site link on info screen."
+  },
+  "learnMore": "Learn more about building games in Flutter with",
+  "@learnMore": {
+    "description": "Text shown on description of info screen"
+  },
+  "firebaseOr": "Firebase or dive right into the",
+  "@firebaseOr": {
+    "description": "Text shown on description of info screen"
+  },
+  "openSourceCode": "open source code.",
+  "@openSourceCode": {
+    "description": "Text shown on description of info screen"
+  },
+  "enter": "Enter",
+  "@enter": {
+    "description": "Text shown on the mobile controls enter button"
+  },
+  "initialsErrorTitle": "Uh-oh... well, that didn’t work",
+  "@initialsErrorTitle": {
+    "description": "Title shown when the initials submission fails"
+  },
+  "initialsErrorMessage": "Please try a different combination of letters",
+  "@initialsErrorMessage": {
+    "description": "Message on shown when the initials submission fails"
+  },
+  "leaderboardErrorMessage": "No connection. Leaderboard and sharing functionality is unavailable.",
+  "@leaderboardErrorMessage": {
+    "description": "Text shown when the leaderboard had an error while loading"
+  }
+  ,
+  "letEveryone": "Let everyone know about I/O Pinball",
+  "@letEveryone": {
+    "description": "Text displayed on share screen for description"
+  },
+  "bySharingYourScore": "by sharing your score to your preferred",
+  "@bySharingYourScore": {
+    "description": "Text displayed on share screen for description"
+  },
+  "socialMediaAccount": "social media account!",
+  "@socialMediaAccount": {
+    "description": "Text displayed on share screen for description"
+  },
+  "iGotScoreAtPinball": "I got {score} points in #IOPinball, can you beat my score? \nSee you at #GoogleIO!",
+  "@iGotScoreAtPinball": {
+    "description": "Text to share score on Social Network",
+    "placeholders": {
+      "score": {
+          "type": "String"
+      }
+    }
+  }
+}

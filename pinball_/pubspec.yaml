@@ -1,0 +1,70 @@
+name: pinball
+description: Google I/O 2022 Pinball game built with Flutter and Firebase
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+  flutter: 2.10.5
+
+dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
+  bloc: ^8.0.2
+  cloud_firestore: ^3.1.10
+  equatable: ^2.0.3
+  firebase_auth: ^3.3.16
+  firebase_core: ^1.15.0
+  flame: ^1.1.1
+  flame_bloc: ^1.4.0
+  flame_forge2d:
+    git:
+      url: https://github.com/flame-engine/flame
+      path: packages/flame_forge2d/
+      ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  flutter_localizations:
+    sdk: flutter
+  geometry:
+    path: packages/geometry
+  intl: ^0.17.0
+  leaderboard_repository:
+    path: packages/leaderboard_repository
+  pinball_audio:
+    path: packages/pinball_audio
+  pinball_components:
+    path: packages/pinball_components
+  pinball_flame:
+    path: packages/pinball_flame
+  pinball_theme:
+    path: packages/pinball_theme
+  pinball_ui:
+    path: packages/pinball_ui
+  platform_helper:
+    path: packages/platform_helper
+  share_repository:
+    path: packages/share_repository
+  url_launcher: ^6.1.0
+
+dev_dependencies:
+  bloc_test: ^9.0.2
+  flame_test: ^1.3.0
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/components/
+    - assets/images/bonus_animation/
+    - assets/images/score/
+    - assets/images/loading_game/
+
+flutter_gen:
+  line_length: 80
