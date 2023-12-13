@@ -1,0 +1,31 @@
+{
+  "files": {
+    "static/js/0.aaa06a1e.chunk.js": "/diabloweb/static/js/0.aaa06a1e.chunk.js",
+    "static/js/0.aaa06a1e.chunk.js.map": "/diabloweb/static/js/0.aaa06a1e.chunk.js.map",
+    "main.css": "/diabloweb/static/css/main.e1dd4272.chunk.css",
+    "main.js": "/diabloweb/static/js/main.0a18bc0c.chunk.js",
+    "main.js.map": "/diabloweb/static/js/main.0a18bc0c.chunk.js.map",
+    "runtime~main.js": "/diabloweb/static/js/runtime~main.bf17ce54.js",
+    "runtime~main.js.map": "/diabloweb/static/js/runtime~main.bf17ce54.js.map",
+    "runtime~storage.js": "/diabloweb/static/js/runtime~storage.83a78cef.js",
+    "runtime~storage.js.map": "/diabloweb/static/js/runtime~storage.83a78cef.js.map",
+    "storage.js": "/diabloweb/static/js/storage.8fcdd212.chunk.js",
+    "storage.js.map": "/diabloweb/static/js/storage.8fcdd212.chunk.js.map",
+    "static/js/5.430d8c5c.chunk.js": "/diabloweb/static/js/5.430d8c5c.chunk.js",
+    "static/js/5.430d8c5c.chunk.js.map": "/diabloweb/static/js/5.430d8c5c.chunk.js.map",
+    "8acc76fdb6ee253c485e.worker.js": "/diabloweb/8acc76fdb6ee253c485e.worker.js",
+    "8acc76fdb6ee253c485e.worker.js.map": "/diabloweb/8acc76fdb6ee253c485e.worker.js.map",
+    "d2271be9a67638d3642f.worker.js": "/diabloweb/d2271be9a67638d3642f.worker.js",
+    "d2271be9a67638d3642f.worker.js.map": "/diabloweb/d2271be9a67638d3642f.worker.js.map",
+    "index.html": "/diabloweb/index.html",
+    "precache-manifest.3dac5a6109bc75df34456f034ca62b7b.js": "/diabloweb/precache-manifest.3dac5a6109bc75df34456f034ca62b7b.js",
+    "service-worker.js": "/diabloweb/service-worker.js",
+    "static/css/main.e1dd4272.chunk.css.map": "/diabloweb/static/css/main.e1dd4272.chunk.css.map",
+    "static/media/Diablo.wasm": "/diabloweb/static/media/Diablo.570bd59a.wasm",
+    "static/media/DiabloSpawn.wasm": "/diabloweb/static/media/DiabloSpawn.9c2373b2.wasm",
+    "static/media/ListFile.txt": "/diabloweb/static/media/ListFile.b370797d.txt",
+    "static/media/MpqCmp.wasm": "/diabloweb/static/media/MpqCmp.8aa3c6dc.wasm",
+    "static/media/App.scss": "/diabloweb/static/media/shift.b40e4a63.svg",
+    "storage.html": "/diabloweb/storage.html"
+  }
+}
