@@ -1,5 +1,5 @@
 {
-  "title": "Default",
+  "title": "Default but with N64 Games",
   "longTitle": "Default Feed",
   "description": "The default feed contains a collection of high-quality publicly available games and demos across the various applications (emulators, engines, etc.) that are supported by webЯcade.",
   "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/default-thumb.png",
@@ -215,16 +215,6 @@
           }
         },
         {
-          "title": "Toyshop Trouble",
-          "description": "Santa's counting on you to ensure that all the toys are painted correctly! Can you get the job done before Santa's sleigh is loaded up on Christmas Eve? You don't want to be responsible for children waking up Christmas morning without toys under their trees, do you? Time to juggle those cans of paint and get moving!",
-          "type": "2600",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/2600/toyshop-trouble-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/2600/toyshop-trouble-background.png",
-          "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/2600/ToyshopTrouble.bin"
-          }
-        },
-        {
           "title": "Thrust",
           "description": "The resistance is about to launch a major offensive against the Intergalactic Empire. You have been commissioned by the resistance to steal Klystron pods from the Empire's storage planets. Each planet is defended by a battery of \"Limpet\" guns, powered by a nuclear power plant.",
           "type": "2600",
@@ -232,6 +222,16 @@
           "background": "https://webrcade.github.io/webrcade-default-feed/images/2600/thrust-background.png",
           "props": {
             "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/2600/Thrust.bin"
+          }
+        },
+        {
+          "title": "Toyshop Trouble",
+          "description": "Santa's counting on you to ensure that all the toys are painted correctly! Can you get the job done before Santa's sleigh is loaded up on Christmas Eve? You don't want to be responsible for children waking up Christmas morning without toys under their trees, do you? Time to juggle those cans of paint and get moving!",
+          "type": "2600",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/2600/toyshop-trouble-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/2600/toyshop-trouble-background.png",
+          "props": {
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/2600/ToyshopTrouble.bin"
           }
         }
       ]
@@ -243,18 +243,6 @@
       "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/7800-thumb.png",
       "description": "The Atari 7800 ProSystem, or simply the Atari 7800, is a home video game console officially released by Atari Corporation in 1986 as the successor to both the Atari 2600 and Atari 5200. Designed by General Computer Corporation, the 7800 has significantly improved graphics hardware over Atari's previous consoles, but the same Television Interface Adapter chip that launched with the 2600 in 1977 is used to generate audio.",
       "items": [
-        {
-          "title": "Attack of the PETSCII Robots",
-          "longTitle": "Attack of the PETSCII Robots (Demo)",
-          "type": "7800",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/7800/petscii-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/7800/petscii-background.png",
-          "description": "Attack of the PETSCII Robots is a top-down action/puzzle game. The object is to destroy all of the robots. To do this, you have to search objects in the game for weapons and other items to help you along the way. Many scenarios require complex thinking and problem solving, rather than just action shooting.",
-          "backgroundPixelated": true,
-          "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/7800/petscii7800demo.a78"
-          }
-        },
         {
           "title": "Bentley Bear",
           "longTitle": "Bentley Bear's Crystal Quest",
@@ -587,6 +575,17 @@
           }
         },
         {
+          "title": "REM",
+          "longTitle": "REM (Demo)",
+          "description": "A single level demo of an eery homebrew platform game for the Super Nintendo.",
+          "type": "snes",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/snes/rem-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/snes/rem-background.png",
+          "props": {
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/snes/rem.sfc"
+          }
+        },
+        {
           "title": "Rodas Cross",
           "longTitle": "Rodas Cross (Demo)",
           "description": "Demo release of an action-adventure game with RPG elements for the Super Nintendo developed by Kaffeeware.",
@@ -618,17 +617,6 @@
           }
         },
         {
-          "title": "REM",
-          "longTitle": "REM (Demo)",
-          "description": "A single level demo of an eery homebrew platform game for the Super Nintendo.",
-          "type": "snes",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/snes/rem-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/snes/rem-background.png",
-          "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/snes/rem.sfc"
-          }
-        },
-        {
           "title": "Uwol: Quest for Money",
           "description": "Uwol enjoys a quiet retirement at his cozy house in the beach of Pepinoni (province of Badajoz), so he doesn’t realize that somebody has stolen all his money from the bank. Luckly, his good ol’ friend Meemaid, the evil sorceress-turned-super heroine learned about the incident as she was using the ATM in the very moment the bank was being robbed. That’s why they decide to head back over to the new and refurnished Storm Palace to regain the lost fortune.",
           "type": "snes",
@@ -648,13 +636,14 @@
       "description": "The Game Boy is an 8-bit handheld game console developed and manufactured by Nintendo. The Game Boy was designed by Nintendo's chief engineer Gunpei Yokoi and its Nintendo R&D1 team.",
       "items": [
         {
-          "title": "Retroid",
+          "title": "Bouncing Ball",
+          "longTitle": "The Bouncing Ball",
+          "description": "In this game you are in control of a little ball, which is constantly bouncing around. Your goal is to bounce through all 50 unique levels by collecting every heart you can find on your way.",
           "type": "gb",
-          "description": "\"Retroid\" is a Game Boy game based on the classic arcade game that was originally published as \"Breakout\" by Atari and later brought to perfection as \"Arkanoid\" by the Japanese software firm Taito. The player controls a paddle at the bottom of the screen that reflects a ball to destroy bricks at the top of the screen.",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/retroid-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/retroid-background.png",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/bouncingball-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/bouncingball-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/Retroid.gb",
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/THEBOUNCINGBALL.GB",
             "hwType": 3,
             "colors": 1,
             "palette": 1
@@ -672,38 +661,24 @@
           }
         },
         {
-          "title": "Tuff",
+          "title": "Into the Blue",
+          "description": "This game consists of a vertical play field with panels rising from the bottom. The panels can be rearranged and will disappear if three (or more) matching panels are lined up in a horizontal or vertical row. This game is inspired by the Sega Genesis title Megapanel.",
           "type": "gb",
-          "description": "Tuff is an original game for Nintendo's black and white Game Boy, based on a mix of Jump'n'Run and Metroidvania style game elements.",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/tuff-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/tuff-background.png",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/intotheblue-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/intotheblue-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/tuff.gb",
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/Into%20the%20Blue.gb",
             "hwType": 1
           }
         },
         {
-          "title": "Bouncing Ball",
-          "longTitle": "The Bouncing Ball",
-          "description": "In this game you are in control of a little ball, which is constantly bouncing around. Your goal is to bounce through all 50 unique levels by collecting every heart you can find on your way.",
+          "title": "Lumberjack",
+          "description": "Lumberjack is a Game Boy homebrew where you help the world's most fragile lumberjack cut down an endless tree while avoiding getting killed by little owls, flimsy branches, or just standing still for too long.",
           "type": "gb",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/bouncingball-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/bouncingball-background.png",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/lumberjack-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/lumberjack-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/THEBOUNCINGBALL.GB",
-            "hwType": 3,
-            "colors": 1,
-            "palette": 1
-          }
-        },
-        {
-          "title": "Super Princess",
-          "type": "gb",
-          "description": "The evil Lord Zurrapa has stolen the kingdom's crown and now our Super Princess has to take it back! Unveil the secrets of the maze, kill all enemies and bring the glory back to the country!",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/superprincess-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/superprincess-background.png",
-          "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/SuperPrincess.gb",
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/ind-lj.gb",
             "hwType": 3,
             "colors": 1,
             "palette": 1
@@ -723,14 +698,16 @@
           }
         },
         {
-          "title": "Into the Blue",
-          "description": "This game consists of a vertical play field with panels rising from the bottom. The panels can be rearranged and will disappear if three (or more) matching panels are lined up in a horizontal or vertical row. This game is inspired by the Sega Genesis title Megapanel.",
+          "title": "Retroid",
           "type": "gb",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/intotheblue-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/intotheblue-background.png",
+          "description": "\"Retroid\" is a Game Boy game based on the classic arcade game that was originally published as \"Breakout\" by Atari and later brought to perfection as \"Arkanoid\" by the Japanese software firm Taito. The player controls a paddle at the bottom of the screen that reflects a ball to destroy bricks at the top of the screen.",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/retroid-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/retroid-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/Into%20the%20Blue.gb",
-            "hwType": 1
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/Retroid.gb",
+            "hwType": 3,
+            "colors": 1,
+            "palette": 1
           }
         },
         {
@@ -747,6 +724,19 @@
           }
         },
         {
+          "title": "Super Princess",
+          "type": "gb",
+          "description": "The evil Lord Zurrapa has stolen the kingdom's crown and now our Super Princess has to take it back! Unveil the secrets of the maze, kill all enemies and bring the glory back to the country!",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/superprincess-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/superprincess-background.png",
+          "props": {
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/SuperPrincess.gb",
+            "hwType": 3,
+            "colors": 1,
+            "palette": 1
+          }
+        },
+        {
           "title": "Tobu Tobu Girl",
           "type": "gb",
           "description": "Your cat is floating into the atmosphere and you are the only one who can save it. Jump, dash, and flap your arms to maneuver around perilous obstacles racing against the clock to retrieve your pet friend before it is too late!",
@@ -760,19 +750,16 @@
           }
         },
         {
-          "title": "Lumberjack",
-          "description": "Lumberjack is a Game Boy homebrew where you help the world's most fragile lumberjack cut down an endless tree while avoiding getting killed by little owls, flimsy branches, or just standing still for too long.",
+          "title": "Tuff",
           "type": "gb",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/lumberjack-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/lumberjack-background.png",
+          "description": "Tuff is an original game for Nintendo's black and white Game Boy, based on a mix of Jump'n'Run and Metroidvania style game elements.",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gb/tuff-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gb/tuff-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/ind-lj.gb",
-            "hwType": 3,
-            "colors": 1,
-            "palette": 1
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gb/tuff.gb",
+            "hwType": 1
           }
         }
-
       ]
     },
     {
@@ -783,33 +770,14 @@
       "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc-background.png",
       "items": [
         {
-          "title": "Space Invasion",
-          "description": "Space Invasion takes the classic alien invasion genre a step further with full color action, tons of levels, and a variety of aliens, each armed with a different weapon. It's up to you and your three shields to protect the earth.",
+          "title": "Floracy",
+          "longTitle": "Floracy (Demo)",
+          "description": "\"Floracy\" is a roleplaying game with elements of strategy and action games, in which the player breeds plantlike creatures for exciting animated combats. Felix, hero of the video game \"Felix und die Rache der Null\", spends his time growing plants on his farm, which will develop into creatures after a while, the Floracy.",
           "type": "gbc",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spaceinvasion-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spaceinvasion-background.png",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/florancy-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/florancy-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/SpaceInvasion01.gb"
-          }
-        },
-        {
-          "title": "µCity",
-          "description": " µCity (also spelled 'uCity', pronounced 'micro-city'), the open-source city-building game for Game Boy Color. The aim of the game is to build a city. Simple enough.",
-          "type": "gbc",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/ucity-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/ucity-background.png",
-          "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/ucity.gbc"
-          }
-        },
-        {
-          "title": "Spelunky",
-          "description": "An attempt to demake Spelunky 2 for the Game Boy Color. In Spelunky players journey deep underground and explore amazing places filled with traps, treasure, and secrets.",
-          "type": "gbc",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spelunky-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spelunky-background.png",
-          "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/GBCspelunky.gbc"
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/Floracy.GBC"
           }
         },
         {
@@ -824,14 +792,34 @@
           }
         },
         {
-          "title": "Floracy",
-          "longTitle": "Floracy (Demo)",
-          "description": "\"Floracy\" is a roleplaying game with elements of strategy and action games, in which the player breeds plantlike creatures for exciting animated combats. Felix, hero of the video game \"Felix und die Rache der Null\", spends his time growing plants on his farm, which will develop into creatures after a while, the Floracy.",
+          "title": "Last Crown Warriors",
+          "longTitle": "Last Crown Warriors (Demo)",
+          "description": "Action/strategy game for the Nintendo Game Boy. Take on waves of enemies as you try to conquer all of the bases within each stage. Each warrior has his own custom weapon, and each stage its own enemies.",
           "type": "gbc",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/florancy-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/florancy-background.png",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/lastcrown-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/lastcrown-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/Floracy.GBC"
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/Last%20Crown%20Warriors%20(Demo)%202.1.1.gb"
+          }
+        },
+        {
+          "title": "Space Invasion",
+          "description": "Space Invasion takes the classic alien invasion genre a step further with full color action, tons of levels, and a variety of aliens, each armed with a different weapon. It's up to you and your three shields to protect the earth.",
+          "type": "gbc",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spaceinvasion-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spaceinvasion-background.png",
+          "props": {
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/SpaceInvasion01.gb"
+          }
+        },
+        {
+          "title": "Spelunky",
+          "description": "An attempt to demake Spelunky 2 for the Game Boy Color. In Spelunky players journey deep underground and explore amazing places filled with traps, treasure, and secrets.",
+          "type": "gbc",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spelunky-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/spelunky-background.png",
+          "props": {
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/GBCspelunky.gbc"
           }
         },
         {
@@ -845,14 +833,13 @@
           }
         },
         {
-          "title": "Last Crown Warriors",
-          "longTitle": "Last Crown Warriors (Demo)",
-          "description": "Action/strategy game for the Nintendo Game Boy. Take on waves of enemies as you try to conquer all of the bases within each stage. Each warrior has his own custom weapon, and each stage its own enemies.",
+          "title": "µCity",
+          "description": " µCity (also spelled 'uCity', pronounced 'micro-city'), the open-source city-building game for Game Boy Color. The aim of the game is to build a city. Simple enough.",
           "type": "gbc",
-          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/lastcrown-thumb.png",
-          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/lastcrown-background.png",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/gbc/ucity-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/gbc/ucity-background.png",
           "props": {
-            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/Last%20Crown%20Warriors%20(Demo)%202.1.1.gb"
+            "rom": "https://raw.githubusercontent.com/webrcade/webrcade-default-feed/main/content/gbc/ucity.gbc"
           }
         }
       ]
@@ -1422,6 +1409,103 @@
           }
         }
       ]
-    }
+    },
+    {
+      "title": "Doom Classic",
+      "longTitle": "Doom Classic Games",
+      "background": "https://webrcade.github.io/webrcade-default-feed/images/doom-background.png",
+      "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/doom-thumb.png",
+      "description": "Doom is a 1993 first-person shooter (FPS) game developed by id Software for MS-DOS. The ability for user-generated content to provide custom levels and other game modifications using WAD files became a popular aspect of Doom. Gaining the first large mod-making community, Doom affected the culture surrounding first-person shooters, and also the industry.",
+      "items": [
+        {
+          "title": "Doom 1 (Shareware)",
+          "description": "Doom is a 1993 first-person shooter (FPS) game developed by id Software for MS-DOS. Players assume the role of a space marine, popularly known as Doomguy, fighting his way through hordes of invading demons from Hell. The first episode, comprising nine levels, was distributed freely as shareware and played by an estimated 15–20 million people within two years.",
+          "type": "doom",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/doom/doom1-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/doom/doom1-background.png",
+          "props": {
+            "game": "doom1"
+          }
+        },
+        {
+          "title": "Freedoom 1",
+          "longTitle": "Freedoom Phase 1",
+          "description": "The Freedoom project aims to create a complete, free content first person shooter game. Phase 1contains four episodes, nine levels each, totalling 36 levels. This game aims for compatibility with The Ultimate Doom mods, also known as plain Doom or Doom 1.",
+          "type": "doom",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/doom/freedoom1-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/doom/freedoom1-background.png",
+          "props": {
+            "game": "freedoom1"
+          }
+        },
+        {
+          "title": "Freedoom 2",
+          "longTitle": "Freedoom Phase 2",
+          "description": "The Freedoom project aims to create a complete, free content first person shooter game. Phase 2 includes 32 levels in one long episode, featuring extra monsters and a double-barrelled shotgun. This project aims for compatibility with Doom II mods.",
+          "type": "doom",
+          "thumbnail": "https://webrcade.github.io/webrcade-default-feed/images/doom/freedoom2-thumb.png",
+          "background": "https://webrcade.github.io/webrcade-default-feed/images/doom/freedoom2-background.png",
+          "props": {
+            "game": "freedoom2"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Nintendo 64",
+      "description": "This is the category for Nintendo 64 Games",
+      "items": [
+        {
+          "props": {
+            "rom": "https://www.dropbox.com/s/nl9n1ll9u62ylge/Legend%20of%20Zelda%2C%20The%20-%20Ocarina%20of%20Time%20%28U%29%20%28V1.2%29%20%5B%21%5D.z64?dl=0"
+          },
+          "type": "n64",
+          "title": "Legend of Zelda, The - Ocarina of Time",
+          "description": "Ganondorf, the evil King of Thieves, is on the move, threatening the peaceful land of Hyrule.  He is determined to steal his way into the legendary Sacred Realm in hopes of harnessing the power of the mythical Triforce.  As the young hero Link, it is your destiny to thwart Ganondorf's evil schemes.  Navi, your guardian fairy, will guide you as you venture through the many regions of Hyrule, from the volcanic caves of Death Mountain to the treacherous waters of Zora's Domain.  Before you complete this epic quest, you'll delve into deadly dungeons, collect weapons of great power and learn the spells you need to conquer the most irresistible force of all-time.\n\n* The immersive storyline and environments draw players into an amazing 3D world.\n* Time travel allows you to play as Link in different stages of his life.\n* New gameplay features include a unique targeting system and 1st and 3rd person perspectives.\n* Up to three games can be saved simultaneously to memory!",
+          "thumbnail": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Titles/resized/Legend%20of%20Zelda%2C%20The%20-%20Ocarina%20of%20Time%20(Europe)%20(Beta)%20(2003-02-13)%20(GameCube).png",
+          "background": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Snaps/output/Legend%20of%20Zelda%2C%20The%20-%20Ocarina%20of%20Time%20(Europe)%20(Beta)%20(2003-02-13)%20(GameCube).png",
+          "backgroundPixelated": true,
+          "added": 1686586189593
+        },
+        {
+          "props": {
+            "rom": "https://www.dropbox.com/s/4cks6emkj2udfl0/Mario%20Kart%2064%20%28E%29%20%28V1.1%29%20%5B%21%5D.z64?dl=0"
+          },
+          "type": "n64",
+          "title": "Mario Kart 64",
+          "description": "Three Two One GO!  The signal light changes and you drop the pedal to the metal.  Take on up to three friends in the split-screen VS games, or race solo in the Mario GP.  Tell your friends to bring it on in the highly competitive Battle mode.  Advanced features allow you to race with your \"Ghost\".  The driving data from your best run appears as a transparent character on the screen.  No longer must you simply race against the clock -- you can actually race against yourself!\n\n* Save your hottest Ghost data to a portable N64 Controller Pak!\n* Collect multiple power-up items!\n* Twenty different courses -- 4 Cups with 4 courses each and 4 special Battle mode courses!\n* Everyone's favorite characters are back and gorgeously rendered, including two new additions, Donkey Kong and Wario!",
+          "thumbnail": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Titles/resized/Mario%20Kart%2064%20(Europe).png",
+          "background": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Snaps/output/Mario%20Kart%2064%20(Europe).png",
+          "backgroundPixelated": true,
+          "added": 1686586252841
+        },
+        {
+          "props": {
+            "rom": "https://www.dropbox.com/s/r6ncuppbhdnme0c/Super%20Mario%2064%20%28USA%29.n64?dl=0"
+          },
+          "type": "n64",
+          "title": "Super Mario 64",
+          "added": 1686585883108,
+          "description": "Super Mario 64 is a Jump & Run which was developed and published by Nintendo in 1996 as one of the realease titles for the N64. Set in Princess Peach's Castle, Mario discovers that Bowser has invaded the castle and imprisoned the princess as well as her servants within it, using the power of the castle's 120 Power Stars. Mario searches the castle and discovers paintings which are portals to other worlds where Bowser & his minions guard the stars - encouraged to save Princess Peach, Mario embarks on a journey to recover all the Power Stars & defeat Bowser in his lair!",
+          "thumbnail": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Titles/resized/Super%20Mario%2064%20(Europe)%20(En%2CFr%2CDe).png",
+          "background": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Snaps/output/Super%20Mario%2064%20(Europe)%20(En%2CFr%2CDe).png",
+          "backgroundPixelated": true
+        },
+        {
+          "props": {
+            "rom": "https://www.dropbox.com/home?preview=Super+Smash+Bros.+%28U%29+%5B%21%5D.z64"
+          },
+          "type": "n64",
+          "title": "Super Smash Bros.",
+          "description": "Smash Bros players seek to knock opposing characters off the stage. In Super Smash Bros., characters have a damage total, represented by a percentage value, which rises as they take damage and can exceed 100%, but maxes out at 999%. As a character's percentage rises, the character can be knocked progressively farther by an opponent's attacks. To KO an opponent, the player must send that character flying off the edge of the stage, which is not an enclosed arena but rather an area with open boundaries, usually a set of suspended platforms.",
+          "thumbnail": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Titles/resized/Super%20Smash%20Bros.%20(Australia).png",
+          "background": "https://raw.githubusercontent.com/webrcade-assets/webrcade-assets-n64-images/master/Named_Snaps/output/Super%20Smash%20Bros.%20(Australia).png",
+          "backgroundPixelated": true,
+          "added": 1686586336283
+        }
       ]
     }
+  ],
+  "props": {},
+  "backgroundPixelated": false
+}
