@@ -52,17 +52,9 @@ function linkUserWithEmail(email, password)
   }
 }
 
-function linkOrSignInWithGoogle()
+function checkForRedirect()
 {
-  var provider = new firebase.auth.GoogleAuthProvider();
-
-  if(firebase.auth().currentUser != null && firebase.auth().currentUser.isAnonymous)
-  {
-    if(isMobile())
-    {
-      firebase.auth().linkWithRedirect(provider);
-
-      firebase.auth().getRedirectResult().then(function(result) 
+  firebase.auth().getRedirectResult().then(function(result) 
       {
         console.log("linkOrSignInWithGoogle:success");
         sendAuthDataToUnity();
@@ -70,6 +62,7 @@ function linkOrSignInWithGoogle()
       {
         if(error.code == "auth/credential-already-in-use")
         {
+          console.log("linkOrSignInWithGoogle:fail auth/credential-already-in-use try signInWithCredential");
           firebase.auth().signInWithCredential(error.credential).catch(function(error) 
           {
             console.log("signInWithCredential:: Error logging in " + error.code);
@@ -84,6 +77,18 @@ function linkOrSignInWithGoogle()
           window.unityGame.SendMessage(unityFirebaseGameOjbectName, "firebaseLinkUserWithEmailFailed", error.message);
         }
       });
+}
+
+function linkOrSignInWithGoogle()
+{
+  var provider = new firebase.auth.GoogleAuthProvider();
+
+  if(firebase.auth().currentUser != null && firebase.auth().currentUser.isAnonymous)
+  {
+    var isSafariBrowser = (navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') <= -1);
+    if(isMobile() || isSafariBrowser)
+    {
+      firebase.auth().currentUser.linkWithRedirect(provider);
     }
     else
     {
@@ -105,46 +110,6 @@ function linkOrSignInWithGoogle()
         else
         {
           console.log("linkOrSignInWithGoogle:: Error logging in " + error.code);
-          console.error(error);
-          window.unityGame.SendMessage(unityFirebaseGameOjbectName, "firebaseLinkUserWithEmailFailed", error.message);
-        }
-      });
-    }
-  }
-}
-
-
-function linkOrSignInWithApple()
-{
-  var provider = new firebase.auth.OAuthProvider('apple.com');
- 
-  if(firebase.auth().currentUser != null && firebase.auth().currentUser.isAnonymous)
-  {
-    var isSafariBrowser = (navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') <= -1);
-    if(isMobile() || isSafariBrowser)
-    {
-      firebase.auth().currentUser.linkWithRedirect(provider);
-    }
-    else
-    {
-      firebase.auth().currentUser.linkWithPopup(provider).then((result) => 
-      {
-        console.log("linkOrSignInWithApple:: Success");
-        sendAuthDataToUnity();
-      }).catch((error) => 
-      {
-        if(error.code == "auth/credential-already-in-use")
-        {
-          firebase.auth().signInWithCredential(error.credential).catch(function(error) 
-          {
-            console.log("signInWithCredential:: Error logging in " + error.code);
-            console.error(error);
-            window.unityGame.SendMessage(unityFirebaseGameOjbectName, "firebaseSignInWithEmailFailed", error.message);
-           });
-        }
-        else
-        {
-          console.log("linkOrSignInWithApple:: Error logging in " + error.code);
           console.error(error);
           window.unityGame.SendMessage(unityFirebaseGameOjbectName, "firebaseLinkUserWithEmailFailed", error.message);
         }
@@ -289,5 +254,7 @@ window.addEventListener('load', function() {
   if (typeof firebase !== 'undefined' && firebase.auth() != null) 
   {
     firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    checkForRedirect();
   }
 }, false);
+
